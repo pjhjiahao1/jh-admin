@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.jiahao.modules.system.mapper.RoleMapper">
+
+    <select id="listForPage" resultType="me.jiahao.modules.system.entity.RoleEntity">
+        select
+            id,
+            role_name,
+            role_desc,
+            role_code,
+            sort,
+            status,
+            create_time,
+            create_by,
+            update_time,
+            update_by
+        from sys_role
+    </select>
+
+    <select id="getAllRole" resultType="me.jiahao.modules.system.entity.RoleEntity">
+        select
+            id,
+            role_name,
+            role_desc,
+            role_code,
+            sort,
+            status,
+            create_time,
+            create_by,
+            update_time,
+            update_by
+        from sys_role
+    </select>
+
+</mapper>

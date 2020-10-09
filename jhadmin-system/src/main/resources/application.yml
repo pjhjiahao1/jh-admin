@@ -1,0 +1,22 @@
+server:
+  port: 8000
+spring:
+  profiles:
+    active: dev #测试 本地环境dev 生成环境 prod
+  jackson:
+    time-zone: GMT+8
+    data:
+      redis:
+        repositories:
+          enabled: false
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+rsa:
+  private_key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANIuOKo2b8xUtX7tUCVhrjDlk6vJYvc2ltQ1azQdf2+0xNp8CqWs1zGxFdwsFptsGc0HUB32GdVI+TSYK3gsObZbjMO8dY8RY90sNBdcxRP41238soYIDYIGiYJhMMsjFRdaqt+aFZF+CRdk8g3fqGtus5HIUjQBzP2TQks0IF5dAgMBAAECgYEAzphWZKFbpSqCuH/GLuhkE3YmgE5U9BD5kx/q/3AbSo8SjHwu7wkFAbhCd4fytNU+SzVr//dfDzJKmvMUj2xRUHEOfgspnxeDPwqoWSWrppFZymUK0v+wB+hE99t2uUmkhlG6Kl0sk9vguKNuZFNP6JHvSXazLe6aWPPnOvfxGhUCQQDy6YTTrIkFfjvEcWr3+oVS0aTvuEWKBudfmbqDi0ru2vAHGLRg2GFXWqg0tRuX0KcZ/0QQcqbMjcMS00QjjAKHAkEA3YE8aj88lr8h32VJHJOq6VcnVowJjc1pgzoX/M7jCBKvJfKd9oo4OngyAyg3EUZwV2QrrVsESgy3jM3Ry/v8+wJAc3BIgHPJNkQUUTn5NNnojEA3Gvk+iubXBBbBjYwf0z1WvnieGDwcnm/l6g57i31MPE2UYiCqZiGkqAigpCgAdwJAVrQApwILwGIeayhlXuc6bk3sGweDsdrm4zP5Mb71xTIzFuKKDHf8HH7x7KRwMbXlwX93TUskOawSqO3jojoHwwJAJXCNcATgrzznlq5KPmfXF826EWp9I4ot68mr8VjNOgtdhpGEYBfRf9CLQsjPz/trm+4rzCUyOyk8QkXAyqaDzg==
+  public_key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDSLjiqNm/MVLV+7VAlYa4w5ZOryWL3NpbUNWs0HX9vtMTafAqlrNcxsRXcLBabbBnNB1Ad9hnVSPk0mCt4LDm2W4zDvHWPEWPdLDQXXMUT+Ndt/LKGCA2CBomCYTDLIxUXWqrfmhWRfgkXZPIN36hrbrORyFI0Acz9k0JLNCBeXQIDAQAB
