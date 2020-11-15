@@ -6,6 +6,7 @@ import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.utils.PageRequest;
 
+import javax.management.relation.Role;
 import java.util.List;
 
 /**
@@ -17,4 +18,10 @@ public interface RoleService {
     List<RoleEntity> getAllRole();
 
     PageInfo<RoleEntity> listForPage(PageRequest pageQuery);
+
+    int save(RoleEntity roleEntity);
+
+    int update(RoleEntity roleEntity);
+
+    int remove(Long id);
 }

@@ -18,7 +18,7 @@ public interface UserMapper {
 
     int update(UserEntity userEntity);
 
-    int remove(String id);
+    int remove(Long id);
 
     UserEntity getUserByUserName(String username);
 

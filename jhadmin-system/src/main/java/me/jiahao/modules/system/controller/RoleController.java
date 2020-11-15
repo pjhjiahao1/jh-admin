@@ -3,13 +3,14 @@ package me.jiahao.modules.system.controller;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.RoleEntity;
+import me.jiahao.modules.system.mapper.RoleMenuMapper;
+import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.RoleService;
 import me.jiahao.utils.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.Role;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ import java.util.List;
 public class RoleController {
 
     private final RoleService roleService;
+    private final UserRoleMapper userRoleMapper;
+
 
     /*
     **
@@ -48,6 +51,38 @@ public class RoleController {
     @GetMapping
     public R listForPage(PageRequest pageQuery) {
         return R.success(roleService.listForPage(pageQuery));
+    }
+    /*
+    **
+    * @Description: 保存
+    * @Param: [roleEntity]
+    * @return: me.jiahao.exception.R
+    * @Author: panjiahao
+    * @Date: 2020/10/10
+    */
+    @PreAuthorize("@el.check('role:list')")
+    @PostMapping
+    public R save(RoleEntity roleEntity) {
+        int count = roleService.save(roleEntity);
+        return R.common(count);
+    }
+
+    @PreAuthorize("@el.check('role:list')")
+    @PutMapping
+    public R update(RoleEntity roleEntity) {
+        int count = roleService.update(roleEntity);
+        return R.common(count);
+    }
+
+    @PreAuthorize("@el.check('role:list')")
+    @DeleteMapping
+    public R remove(@RequestParam(value = "id") Long id) {
+        int res = userRoleMapper.getUserRole(id);
+        if (res > 0) {
+            return R.warn("有用户关联此角色暂不能删除");
+        }
+        int count = roleService.remove(id);
+        return R.common(count);
     }
 
 }

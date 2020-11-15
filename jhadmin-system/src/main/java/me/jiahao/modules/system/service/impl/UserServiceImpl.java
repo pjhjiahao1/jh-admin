@@ -54,8 +54,9 @@ public class UserServiceImpl implements UserService {
         return R.common(count);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
-    public R remove(String id) {
+    public R remove(Long id) {
         // 删除用户
         int count = userMapper.remove(id);
         // 删除用户对于的角色

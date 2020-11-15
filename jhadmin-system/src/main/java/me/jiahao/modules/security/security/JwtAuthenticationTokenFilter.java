@@ -72,7 +72,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             // 去掉令牌前缀
             return bearerToken.replace(jwtTokenUtil.getTokenStartWith(), "");
         } else {
-            System.out.println("非法Token：{}" + bearerToken);
+            System.out.println("token为空，需要重新登陆");
         }
         return null;
     }

@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.util.StringUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,13 @@ public class MenuController {
 
     /*
     **
-    * @Description: 构建菜单
+    * @Description: 构建左侧菜单栏
     * @Param: []
     * @return: me.jiahao.exception.R
     * @Author: panjiahao
     * @Date: 2020/10/8
     */
+    @PreAuthorize("@el.check('menu:list')")
     @GetMapping(value = "/build")
     public R buildMenus(){
         // 获取当前用户的菜单列表
@@ -45,12 +47,13 @@ public class MenuController {
 
     /*
      **
-     * @Description: 构建菜单树
+     * @Description: 构建角色管理菜单树
      * @Param: []
      * @return: me.jiahao.exception.R
      * @Author: panjiahao
      * @Date: 2020/10/8
      */
+    @PreAuthorize("@el.check('menu:list')")
     @GetMapping(value = "/tree")
     public R buildMenusTree(@RequestParam(value = "rolecode",required = true) String rolecode){
         if (StringUtils.isBlank(rolecode)) {
@@ -75,5 +78,14 @@ public class MenuController {
         List<MenuEntity> menuTree = menuService.buildTree(menuList);
         Object o = menuService.buildMenusTree(menuTree);
         return R.success(o);
+    }
+
+    @PreAuthorize("@el.check('menu:list')")
+    @GetMapping
+    public R listMenu () {
+        // 获取所有菜单列表
+        List<MenuEntity> menuList = menuService.findByRole(null);
+        List<MenuEntity> menuTree = menuService.buildTree(menuList);
+        return R.success(menuTree);
     }
 }

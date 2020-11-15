@@ -65,7 +65,7 @@ public class UserController {
      */
     @PreAuthorize("@el.check('user:list')")
     @DeleteMapping
-    public R remove(@RequestParam(value = "id") String id) {
+    public R remove(@RequestParam(value = "id") Long id) {
         return userService.remove(id);
     }
 

@@ -32,4 +32,46 @@
         from sys_role
     </select>
 
+    <insert id="save" >
+        insert into sys_role(role_name,role_code,role_desc,sort,create_time,create_by)
+        values (
+            #{roleName,jdbcType=VARCHAR},
+            #{roleCode,jdbcType=VARCHAR},
+            #{roleDesc,jdbcType=VARCHAR},
+            #{sort,jdbcType=NUMERIC},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{createBy,jdbcType=VARCHAR}
+        )
+
+    </insert>
+
+    <update id="update">
+        update sys_role
+        <set>
+            <if test="roleName != null">
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleCode != null">
+                role_code = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=NUMERIC},
+            </if>
+            <if test="roleDesc != null">
+                role_desc = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="remove">
+        delete from sys_role where id = #{id}
+    </delete>
+
 </mapper>

@@ -8,5 +8,6 @@ import me.jiahao.modules.system.entity.UserRoleEntity;
  */
 public interface UserRoleMapper {
     int save (UserRoleEntity userRoleEntity);
-    int remove (String id);
+    int remove (Long id);
+    int getUserRole(Long id);
 }

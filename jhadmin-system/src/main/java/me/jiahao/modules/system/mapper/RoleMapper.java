@@ -28,4 +28,32 @@ public interface RoleMapper {
     * @Date: 2020/10/8
     */
     List<RoleEntity> listForPage();
+    /*
+    **
+    * @Description: 保存
+    * @Param: [roleEntity]
+    * @return: int
+    * @Author: panjiahao
+    * @Date: 2020/10/10
+    */
+    int save(RoleEntity roleEntity);
+    /*
+    **
+    * @Description: 更新
+    * @Param: [roleEntity]
+    * @return: int
+    * @Author: panjiahao
+    * @Date: 2020/10/10
+    */
+    int update(RoleEntity roleEntity);
+    /*
+    **
+    * @Description: 删除
+    * @Param: [id]
+    * @return: int
+    * @Author: panjiahao
+    * @Date: 2020/10/10
+    */
+    int remove(Long id);
+
 }

@@ -4,7 +4,7 @@
 
     <select id="getMenuForRole" resultType="me.jiahao.modules.system.entity.MenuEntity">
         select
-        c.id,c.menu_code,c.menu_name,c.menu_pid,c.permission,c.is_leaf,c.level,c.sort,c.status,c.icon,c.url,c.component
+        c.id,c.menu_code,c.menu_name,c.menu_pid,c.permission,c.is_leaf,c.level,c.sort,c.status,c.icon,c.url,c.component,c.create_time
          from sys_role a left join sys_role_menu b
         on a.id = b.role_id
         left join sys_menu c

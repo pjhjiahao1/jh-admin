@@ -7,10 +7,14 @@ import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.modules.system.mapper.RoleMapper;
+import me.jiahao.modules.system.mapper.RoleMenuMapper;
 import me.jiahao.modules.system.mapper.UserMapper;
 import me.jiahao.modules.system.service.RoleService;
 import me.jiahao.utils.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +27,7 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleMapper roleMapper;
+    private final RoleMenuMapper roleMenuMapper;
 
     @Override
     public PageInfo<RoleEntity> listForPage(PageRequest pageQuery) {
@@ -35,5 +40,22 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleEntity> getAllRole() {
         return roleMapper.getAllRole();
+    }
+
+    @Override
+    public int save(RoleEntity roleEntity) {
+        return roleMapper.save(roleEntity);
+    }
+
+    @Override
+    public int update(RoleEntity roleEntity) {
+        return roleMapper.update(roleEntity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    @Override
+    public int remove(Long id) {
+        roleMenuMapper.removeRole(id);
+        return roleMapper.remove(id);
     }
 }

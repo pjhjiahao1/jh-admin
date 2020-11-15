@@ -13,5 +13,5 @@ public interface UserService {
     PageInfo<UserEntity> listForPage(PageRequest pageQuery);
     R save (UserEntity userEntity);
     R update(UserEntity userEntity);
-    R remove(String id);
+    R remove(Long id);
 }
