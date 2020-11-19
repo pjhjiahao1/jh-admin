@@ -30,7 +30,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R save(Long roleId, List<MenuTreeVo> roleMenu) {
-        roleMenuMapper.removeRole(roleId);// 删除
+        roleMenuMapper.remove(roleId);// 删除
         Map<String,Object> params = new HashMap<>();
         RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
         boolean flag = false;

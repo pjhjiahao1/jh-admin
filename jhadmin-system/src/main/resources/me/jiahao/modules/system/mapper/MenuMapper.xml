@@ -30,7 +30,8 @@
         status,
         permission,
         menu_code,
-        component
+        component,
+        create_time
         from sys_menu
         <where>
             <if test="menuName != null and menuName != ''">
@@ -39,7 +40,71 @@
             <if test="menuPid != null and menuPid != ''">
                 and id = #{menuPid}
             </if>
+            <if test="pid != null and pid != ''">
+                and menu_pid = #{pid}
+            </if>
         </where>
     </select>
 
+    <insert id="save" >
+        insert into sys_menu(menu_pid,is_leaf,menu_name,icon,sort,level,permission,menu_code,component,create_time,create_by)
+        values (
+            #{menuPid,jdbcType=BIGINT},
+            #{isLeaf,jdbcType=NUMERIC},
+            #{menuName,jdbcType=VARCHAR},
+            #{icon,jdbcType=VARCHAR},
+            #{sort,jdbcType=NUMERIC},
+            #{level,jdbcType=NUMERIC},
+            #{permission,jdbcType=VARCHAR},
+            #{menuCode,jdbcType=VARCHAR},
+            #{component,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{createBy,jdbcType=VARCHAR}
+        )
+
+    </insert>
+
+    <update id="update">
+        update sys_menu
+        <set>
+            <if test="menuPid != null">
+                menu_pid = #{menuPid,jdbcType=BIGINT},
+            </if>
+            <if test="isLeaf != null">
+                is_leaf = #{isLeaf,jdbcType=NUMERIC},
+            </if>
+            <if test="menuName != null">
+                menu_name = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=NUMERIC},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=NUMERIC},
+            </if>
+            <if test="permission != null">
+                permission = #{permission,jdbcType=VARCHAR},
+            </if>
+            <if test="menuCode != null">
+                menu_code = #{menuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="component != null">
+                component = #{component,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="remove">
+        delete from sys_menu where id = #{id}
+    </delete>
 </mapper>

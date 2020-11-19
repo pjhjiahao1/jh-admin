@@ -1,8 +1,10 @@
 package me.jiahao.modules.system.service;
 
+import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.MenuEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : panjiahao
@@ -44,4 +46,12 @@ public interface MenuService {
      * @return /
      */
     Object buildMenusTree(List<MenuEntity> menuDtos);
+
+    List<MenuEntity> getMenuForParams(Map<String,Object> params);
+
+    R save (MenuEntity menuEntity);
+
+    R update(MenuEntity menuEntity);
+
+    R remove(Long id);
 }

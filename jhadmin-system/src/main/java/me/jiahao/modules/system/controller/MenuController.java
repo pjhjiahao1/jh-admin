@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : panjiahao
@@ -60,7 +62,7 @@ public class MenuController {
             return R.error("角色编码丢失!");
         }
         // 获取所有菜单列表
-        List<MenuEntity> menuList = menuService.findByRole(null);
+        List<MenuEntity> menuList = menuService.getMenuForParams(new HashMap<>());
         // 角色对应菜单
         List<MenuEntity> roleMenuList = menuService.findByRole(rolecode);
         for (MenuEntity roleMenu : roleMenuList) {
@@ -84,8 +86,46 @@ public class MenuController {
     @GetMapping
     public R listMenu () {
         // 获取所有菜单列表
-        List<MenuEntity> menuList = menuService.findByRole(null);
+        List<MenuEntity> menuList = menuService.getMenuForParams(new HashMap<>());
         List<MenuEntity> menuTree = menuService.buildTree(menuList);
         return R.success(menuTree);
+    }
+
+    /*
+    **
+    * @Description: 获取一级菜单
+    * @Param: []
+    * @return: me.jiahao.exception.R
+    * @Author: panjiahao
+    * @Date: 2020/11/19
+    */
+    @PreAuthorize("@el.check('menu:list')")
+    @GetMapping(value = "firstMenu")
+    public R getFirstMenu () {
+        Map<String,Object> params = new HashMap<>();
+        params.put("pid","0");
+        List<MenuEntity> menuForParams = menuService.getMenuForParams(params);
+        return R.success(menuForParams);
+    }
+
+    @PreAuthorize("@el.check('menu:list')")
+    @PostMapping
+    public R save (MenuEntity menuEntity) {
+        if (menuEntity.getMenuPid() == null) {
+            return R.warn("请选择上级名称");
+        }
+        return menuService.save(menuEntity);
+    }
+
+    @PreAuthorize("@el.check('menu:list')")
+    @PutMapping
+    public R update (MenuEntity menuEntity) {
+        return menuService.update(menuEntity);
+    }
+
+    @PreAuthorize("@el.check('menu:list')")
+    @DeleteMapping
+    public R remove (@RequestParam(value = "id") Long id) {
+        return menuService.remove(id);
     }
 }

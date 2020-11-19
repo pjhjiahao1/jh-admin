@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface RoleMenuService {
 
-    public R save(Long roleId, List<MenuTreeVo> roleMenu);
+     R save(Long roleId, List<MenuTreeVo> roleMenu);
 }

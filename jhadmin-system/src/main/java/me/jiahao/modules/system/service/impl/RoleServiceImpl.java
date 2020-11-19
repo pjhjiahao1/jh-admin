@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public int remove(Long id) {
-        roleMenuMapper.removeRole(id);
+        roleMenuMapper.remove(id);
         return roleMapper.remove(id);
     }
 }

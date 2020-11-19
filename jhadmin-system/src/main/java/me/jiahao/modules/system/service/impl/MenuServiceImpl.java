@@ -1,20 +1,24 @@
 package me.jiahao.modules.system.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.jiahao.exception.R;
 import me.jiahao.modules.security.entity.UserDetailsEntity;
 import me.jiahao.modules.security.mapper.UserMenuRoleMeaasgeMapper;
 import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
+import me.jiahao.modules.system.entity.RoleMenuEntity;
 import me.jiahao.modules.system.entity.vo.MenuMetaVo;
 import me.jiahao.modules.system.entity.vo.MenuTreeVo;
 import me.jiahao.modules.system.entity.vo.Menuvo;
 import me.jiahao.modules.system.mapper.MenuMapper;
 import me.jiahao.modules.system.mapper.RoleMapper;
+import me.jiahao.modules.system.mapper.RoleMenuMapper;
 import me.jiahao.modules.system.service.MenuService;
 import me.jiahao.utils.SecurityUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +36,7 @@ public class MenuServiceImpl implements MenuService {
     private final UserMenuRoleMeaasgeMapper userMenuRoleMeaasgeMapper;
     private final MenuMapper menuMapper;
     private final RoleMapper roleMapper;
+    private final RoleMenuMapper roleMenuMapper;
 
     @Override
     public List<MenuEntity> findByRole(String role) {
@@ -173,5 +178,34 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         return menuvoList;
+    }
+
+    @Override
+    public List<MenuEntity> getMenuForParams(Map<String, Object> params) {
+        return menuMapper.getMenuForParams(params);
+    }
+
+    @Override
+    public R save(MenuEntity menuEntity) {
+        int count = menuMapper.save(menuEntity);
+        return R.common(count);
+    }
+
+    @Override
+    public R update(MenuEntity menuEntity) {
+        int count = menuMapper.update(menuEntity);
+        return R.common(count);
+    }
+
+    @Override
+    public R remove(Long id) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("menuid",id);
+        List<RoleMenuEntity> list = roleMenuMapper.list(params);
+        if (!list.isEmpty()) {
+            return R.warn("有角色关联此菜单，暂不可删除!");
+        }
+        int count = menuMapper.remove(id);
+        return R.common(count);
     }
 }
