@@ -3,14 +3,11 @@ package me.jiahao.modules.system.controller;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.RoleEntity;
-import me.jiahao.modules.system.mapper.RoleMenuMapper;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.RoleService;
 import me.jiahao.utils.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import javax.management.relation.Role;
 import java.util.List;
 
 /**

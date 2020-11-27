@@ -1,0 +1,87 @@
+package ${package}.${moduleName}.controller;
+
+import lombok.RequiredArgsConstructor;
+import ${package}.exception.R;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.service.${className}Service;
+import ${package}.utils.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("api/${pathName}")
+@RequiredArgsConstructor
+public class ${className}Controller {
+
+    private final ${className}Service ${classname}Service;
+
+    /*
+     **
+     * @Description: 分页查询
+     * @Param: [pageQuery]
+     * @return: me.jiahao.exception.R
+     * @Author: ${author}
+     * @Date: ${datetime}
+     */
+    @PreAuthorize("@el.check('${pathName}:list')")
+    @GetMapping
+    public R listForPage(PageRequest pageQuery) {
+        return R.success(${classname}Service.listForPage(pageQuery));
+    }
+
+    /*
+     **
+     * @Description: 保存
+     * @Param: [${classname}Entity]
+     * @return: me.jiahao.exception.R
+     * @Author: ${author}
+     * @Date: ${datetime}
+     */
+    @PreAuthorize("@el.check('${pathName}:list')")
+    @PostMapping
+    public R save(${className}Entity ${classname}Entity) {
+        int count = ${classname}Service.save(${classname}Entity);
+        return R.common(count);
+    }
+
+    /*
+     **
+     * @Description: 更新
+     * @Param: [${classname}Entity]
+     * @return: me.jiahao.exception.R
+     * @Author: ${author}
+     * @Date: ${datetime}
+     */
+    @PreAuthorize("@el.check('${pathName}:list')")
+    @PutMapping
+    public R update(${className}Entity ${classname}Entity) {
+        int count = ${classname}Service.update(${classname}Entity);
+        return R.common(count);
+    }
+
+    /*
+     **
+     * @Description: 删除
+     * @Param: [id]
+     * @return: me.jiahao.exception.R
+     * @Author: ${author}
+     * @Date: ${datetime}
+     */
+    @PreAuthorize("@el.check('${pathName}:list')")
+    @DeleteMapping
+    public R remove(@RequestParam(value = "id") Long id) {
+        int count = ${classname}Service.remove(id);
+        return R.common(count);
+    }
+
+}

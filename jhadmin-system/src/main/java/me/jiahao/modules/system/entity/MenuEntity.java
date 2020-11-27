@@ -45,7 +45,4 @@ public class MenuEntity extends BaseEntity implements Serializable {
     // 构建菜单树使用 当前用户是否有权限 true：有 false：无
 
     private Boolean authMenu = false;
-
-
-
 }

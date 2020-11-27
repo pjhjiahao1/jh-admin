@@ -1,0 +1,4 @@
+-- 菜单SQL
+INSERT INTO `sys_menu` (`menu_pid`, `is_leaf`, `menu_name`, `icon`, `sort`, `level`, `permission`, `menu_code`, `component`)
+                VALUES ('1', '1', '${comments}', 'ios-people', '1', '2', '${pathName}:list','${menuCode}','${vuePathName}');
+

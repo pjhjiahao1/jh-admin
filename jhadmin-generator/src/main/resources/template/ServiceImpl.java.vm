@@ -1,0 +1,47 @@
+package ${package}.${moduleName}.service.impl;
+
+import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
+import me.jiahao.utils.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.service.${className}Service;
+
+
+@Service("${classname}Service")
+@RequiredArgsConstructor
+public class ${className}ServiceImpl implements ${className}Service {
+
+    private final ${className}Mapper ${classname}Mapper;
+
+    @Override
+    public PageInfo<${className}Entity> listForPage(PageRequest pageQuery) {
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+        List<${className}Entity> list = ${classname}Mapper.listForPage();
+        PageInfo<${className}Entity> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    @Override
+    public int save(${className}Entity ${classname}Entity) {
+        return ${classname}Mapper.save(${classname}Entity);
+    }
+
+    @Override
+    public int update(${className}Entity ${classname}Entity) {
+        return ${classname}Mapper.update(${classname}Entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    @Override
+    public int remove(Long id) {
+        return ${classname}Mapper.remove(id);
+    }
+
+}

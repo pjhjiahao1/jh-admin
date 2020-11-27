@@ -3,7 +3,7 @@ spring:
   datasource:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
-      driverClassName: com.mysql.jdbc.Driver
+      driverClassName: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://47.104.70.137:3306/jhadmin?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
       password: 'MyPass@123'
@@ -97,8 +97,8 @@ login:
     font-size: 25
 
 mybatis:
-  type-aliases-package: me.jiahao.modules.*.entity
-  mapper-locations: classpath*:me.jiahao.modules.*.mapper/*.xml
+  type-aliases-package: me.jiahao.modules.*.entity,me.jiahao.*.entity
+  mapper-locations: classpath*:me.jiahao.modules.*.mapper/*.xml,classpath*:me.jiahao.*.mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
 

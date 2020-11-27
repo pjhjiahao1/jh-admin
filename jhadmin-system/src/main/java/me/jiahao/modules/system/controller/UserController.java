@@ -5,7 +5,6 @@ import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.modules.system.service.UserService;
 import me.jiahao.utils.PageRequest;
-import org.hibernate.annotations.Parameter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

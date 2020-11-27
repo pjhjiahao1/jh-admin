@@ -3,6 +3,7 @@ package me.jiahao.exception;
 public enum CustomExceptionType {
     USER_INPUT_ERROR(400,"用户输入异常"),
     SYSTEM_ERROR (500,"系统服务异常"),
+    NOT_FIND_ERROR (404,"系统服务异常"),
     OTHER_ERROR(403,"其他未知异常");
 
     CustomExceptionType(int code, String typeDesc) {

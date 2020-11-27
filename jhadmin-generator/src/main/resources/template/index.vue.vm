@@ -1,0 +1,210 @@
+<template>
+  <div>
+    <Card>
+      <Row type="flex" justify="start" class="code-row-bg">
+        <Button type="success" icon="md-add" @click="add">新增</Button>
+      </Row>
+      <br>
+      <tables ref="tables" pageInfo editable v-model="tableData" :columns="columns" :changePageCallback="changePageCallback" :total="total" :page-size="pageSize"
+              :current="page" />
+    </Card>
+    <Modal
+            v-model="flag"
+            :title="title"
+            :mask-closable="false"
+            :closable="true"
+            footer-hide
+            width="500">
+      <Form ref="${classname}Form" :model="${classname}" :rules="ruleInline" :label-width="80">
+        #foreach ($column in $columns)
+          <FormItem prop="$column.attrname" label="$column.comments" >
+            <Input placeholder="请输入" v-model="${classname}.$column.attrname"/>
+          </FormItem>
+        #end
+        <Row type="flex" justify="end" class="code-row-bg">
+          <FormItem>
+            <Button type="primary"
+                    @click="ok('${classname}Form')"
+            >确定</Button>
+            <Button @click="flag=false"
+                    style="margin-left: 8px">取消</Button>
+          </FormItem>
+        </Row>
+      </Form>
+    </Modal>
+  </div>
+</template>
+
+<script>
+  import Tables from '_c/tables'
+  import { listForPage, save, update, remove } from '@/${jsPathName}'
+  import { Message } from 'iview'
+  export default {
+    name: '${menuCode}',
+    components: {
+      Tables
+    },
+    data () {
+      return {
+        columns: [
+          #foreach ($column in $columns)
+            { title: '${column.comments}', key: '${column.attrname}'}#if($foreach.hasNext),#end
+          #end
+          {
+            title: "操作",
+            key: "action",
+            fixed: "right",
+            minWidth: 180,
+            align: "center",
+            render: (h, params) => {
+              return h("div", [
+                h(
+                        "Tooltip",
+                        {
+                          props: {
+                            trigger: "hover",
+                            content: "修改",
+                            placement: "top",
+                            transfer: true
+                          }
+                        },
+                        [
+                          h("Button", {
+                            props: {
+                              type: "info",
+                              size: "small",
+                              icon: "ios-create-outline"
+                            },
+                            style: {
+                              marginRight: "5px"
+                            },
+                            on: {
+                              click: () => {
+                                this.edit(params.row);
+                              }
+                            }
+                          })
+                        ]
+                ),
+                h(
+                        "Tooltip",
+                        {
+                          props: {
+                            trigger: "hover",
+                            content: "删除",
+                            placement: "top",
+                            transfer: true
+                          }
+                        },
+                        [
+                          h("Button", {
+                            props: {
+                              type: "error",
+                              size: "small",
+                              icon: "ios-trash"
+                            },
+                            on: {
+                              click: () => {
+                                this.delete(params.row);
+                              }
+                            }
+                          })
+                        ]
+                )
+              ]);
+            }
+          }
+        ],
+        tableData: [],
+        total: 0, // 条数
+        page: 1, // 当前页
+        pageSize: 10, // 显示条数
+        title: '',
+        ${classname}: {
+          #foreach ($column in $columns)
+            ${column.attrname}#if($foreach.hasNext),#end
+          #end
+        },
+        flag: false,
+        ruleInline: {
+          #foreach ($column in $columns)
+            ${column.attrname}: [
+              {
+                required: true,
+                message: "此项必填",
+                trigger: "change"
+              }
+            ]#if($foreach.hasNext),#end
+          #end
+        }
+      }
+    },
+    async created() {
+    },
+    methods: {
+      changePageCallback (page, pageSize) {
+        this.page = page
+        this.listForPage(page,pageSize)
+      },
+      listForPage (page,pageSize) {
+        const params = { pageNum: page, pageSize: pageSize}
+        listForPage(params).then(res => {
+          this.total = Number(res.data.data.total)
+          this.tableData = res.data.data.list
+        })
+      },
+      add () {
+        this.title = '新增'
+        this.flag = true
+        this.$refs.${classname}Form.resetFields();
+      },
+      ok () {
+        this.$refs.${classname}Form.validate(async valid => {
+          if (valid) {
+            switch (this.title) {
+            case '新增':
+            save(this.${classname}).then(res => {
+              Message.success(res.data.message);
+              this.flag = false;
+              this.listForPage(this.page,this.pageSize);
+            })
+            break
+            case '编辑':
+            update(this.${classname}).then(res => {
+              Message.success(res.data.message);
+              this.flag = false;
+              this.listForPage(this.page,this.pageSize);
+            })
+            break
+            }
+          }
+        })
+      },
+      edit (params) {
+        this.flag = true;
+        this.title = '编辑'
+        this.user = JSON.parse(JSON.stringify(params));
+      },
+      delete (params) {
+        this.$Modal
+          .confirm({
+            title : '删除确认？',
+            onOk : function (){
+              remove({id: params.id}).then(res => {
+                Message.success(res.data.message);
+                this.listForPage(this.page,this.pageSize);
+              })
+            },
+            closable: true
+          });
+      }
+    },
+    mounted () {
+      this.listForPage(this.page,this.pageSize);
+    }
+  }
+</script>
+
+<style>
+
+</style>

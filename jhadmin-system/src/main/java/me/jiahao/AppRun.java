@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 * @Date: 2020/9/9
 */
 @SpringBootApplication
-@MapperScan(basePackages = "me.jiahao.modules.*.mapper")
+@MapperScan({"me.jiahao.modules.*.mapper","me.jiahao.*.mapper"})
 @EnableTransactionManagement // 开启事务
 public class AppRun {
 

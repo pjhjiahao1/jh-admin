@@ -1,0 +1,26 @@
+package ${package}.${moduleName}.service;
+
+import ${package}.exception.R;
+import ${package}.${moduleName}.entity.${className}Entity;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+
+    List<${className}Entity> listForPage(Map<String,Object> params);
+
+    R save (${className}Entity ${classname}EntityEntity);
+
+    R update(${className}EntityEntity ${classname}EntityEntity);
+
+    R remove(Long id);
+}
+

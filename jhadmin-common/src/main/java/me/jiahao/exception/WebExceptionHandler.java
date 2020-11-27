@@ -38,4 +38,13 @@ public class WebExceptionHandler {
         //没有被程序员发现，并转换为CustomException的异常，都是其他异常或者未知异常.
         return R.error(500,"未知异常");
     }
+
+    @ExceptionHandler(ClassNotFoundException.class)
+    @ResponseBody
+    public R notFoundException(ClassNotFoundException e) {
+        //TODO 将异常信息持久化处理，方便运维人员处理
+        e.printStackTrace();
+        //没有被程序员发现，并转换为CustomException的异常，都是其他异常或者未知异常.
+        return R.error(404,"接口不存在");
+    }
 }

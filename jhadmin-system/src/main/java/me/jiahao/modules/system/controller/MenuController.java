@@ -100,7 +100,7 @@ public class MenuController {
     * @Date: 2020/11/19
     */
     @PreAuthorize("@el.check('menu:list')")
-    @GetMapping(value = "firstMenu")
+    @GetMapping(value = "/firstMenu")
     public R getFirstMenu () {
         Map<String,Object> params = new HashMap<>();
         params.put("pid","0");
@@ -111,8 +111,13 @@ public class MenuController {
     @PreAuthorize("@el.check('menu:list')")
     @PostMapping
     public R save (MenuEntity menuEntity) {
-        if (menuEntity.getMenuPid() == null) {
+        if (menuEntity.getMenuPid() == null && menuEntity.getIsLeaf() != 0) {
             return R.warn("请选择上级名称");
+        }
+        // 表示目录
+        if (menuEntity.getLevel() == 1) {
+            menuEntity.setMenuPid(Long.parseLong("0"));
+            menuEntity.setComponent("Main");
         }
         return menuService.save(menuEntity);
     }
