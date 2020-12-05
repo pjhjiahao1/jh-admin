@@ -2,6 +2,8 @@ package me.jiahao.modules.system.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.vo.MenuTreeVo;
@@ -19,6 +21,7 @@ import java.util.Map;
  * @author : panjiahao
  * @date : 10:28 2020/10/9
  */
+@Api(tags = "系统：角色菜单管理")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/rolemenu")
@@ -33,6 +36,7 @@ public class RoleMenuController {
     * @Author: panjiahao
     * @Date: 2020/10/9
     */
+    @ApiOperation("保存菜单关联权限")
     @PreAuthorize("@el.check('role:list')")
     @PostMapping
     public R save (@RequestBody Map<String,Object> data) {

@@ -98,7 +98,7 @@
         </dependency>
 
         <!-- Swagger UI 相关 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.version}</version>
@@ -127,6 +127,24 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
             <version>1.5.21</version>
+        </dependency>-->
+        <!--swagger图形化接口-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>1.8.7</version>
         </dependency>
 
         <!--Mysql依赖包-->

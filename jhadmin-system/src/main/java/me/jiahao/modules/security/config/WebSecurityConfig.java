@@ -2,9 +2,7 @@ package me.jiahao.modules.security.config;
 
 import lombok.RequiredArgsConstructor;
 import me.jiahao.annotation.AnonymousAccess;
-import me.jiahao.modules.security.security.JwtAuthenticationTokenFilter;
-import me.jiahao.modules.security.security.JwtTokenUtil;
-import me.jiahao.modules.security.security.TokenConfigurer;
+import me.jiahao.modules.security.security.*;
 import me.jiahao.modules.security.service.impl.UserDetailServiceImpl;
 import me.jiahao.utils.enums.RequestMethodEnum;
 import org.springframework.context.ApplicationContext;
@@ -56,6 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final ApplicationContext applicationContext;
     private final CorsFilter corsFilter;
     private final JwtTokenUtil jwtTokenUtil;
+    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     private final UserDetailServiceImpl userDetailServiceImpl;
 
@@ -80,6 +80,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable() //禁用跨站csrf攻击防御，后面的章节会专门讲解在·
+                // 授权异常
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationErrorHandler)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
                 // 不创建会话
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -93,6 +98,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js",
                         "/webSocket/**"
                 ).permitAll()
+                // swagger 文档
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/*/api-docs").permitAll()
+                // 阿里巴巴 druid
+                .antMatchers("/druid/**").permitAll()
 //                .antMatchers("/auth/*").permitAll() // auth相关的全部放行
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()

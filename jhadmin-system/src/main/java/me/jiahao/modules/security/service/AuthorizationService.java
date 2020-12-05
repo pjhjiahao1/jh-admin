@@ -59,9 +59,9 @@ public class AuthorizationService {
         } catch (AuthenticationException e) {
             e.printStackTrace();
             if (e.getMessage().equals("User is disabled")) {
-                throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"此账号已被禁用!");
+                throw new CustomException(CustomExceptionType.FAIL,"此账号已被禁用!");
             } else {
-                throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"用户名或密码不正确");
+                throw new CustomException(CustomExceptionType.FAIL,"用户名或密码不正确");
             }
         }
         UserDetailsEntity userDetail = userMenuRoleMeaasgeMapper.getUserDetail(username);

@@ -1,15 +1,18 @@
 package me.jiahao.exception;
 
-public class CustomException extends RuntimeException {
+import java.io.Serializable;
+
+public class CustomException extends RuntimeException implements Serializable {
+
+    private static final long serialVersionUID = 1213855733833039552L;
+
     //异常错误编码
     private int code ;
     //异常信息
     private String message;
 
-    private CustomException(){}
-
     public CustomException(CustomExceptionType exceptionTypeEnum, String message) {
-        this.code = exceptionTypeEnum.getCode();
+        this.code = exceptionTypeEnum.code;
         this.message = message;
     }
 

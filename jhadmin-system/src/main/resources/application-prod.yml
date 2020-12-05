@@ -38,7 +38,7 @@ spring:
           enabled: true
           # 记录慢SQL
           log-slow-sql: true
-          slow-sql-millis: 1000
+          slow-sql-millis: 5000
           merge-sql: true
         wall:
           config:
@@ -64,7 +64,7 @@ jwt:
   # 必须使用最少88位的Base64对该令牌进行编码
   secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
   # 令牌过期时间 此处单位/毫秒 ，默认4小时，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
-  expiration: 14400000
+  expiration: 180000 #14400000
   # 在线用户key
   online-key: online-token-
   # 在线用户key-3天
@@ -105,4 +105,8 @@ mybatis:
 # 打印sql
 logging:
   level:
-    me.jiahao.modules.system.mapper: debug
+    me.jiahao.*.*.mapper: debug
+
+#是否开启 swagger-ui 正式环境关闭
+swagger:
+  enabled: true

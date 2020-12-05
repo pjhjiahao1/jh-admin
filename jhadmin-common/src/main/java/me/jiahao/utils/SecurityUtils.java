@@ -22,7 +22,7 @@ public class SecurityUtils {
     public static UserDetails getCurrentUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            throw new CustomException(CustomExceptionType.SYSTEM_ERROR, "当前登录状态过期");
+            throw new CustomException(CustomExceptionType.INTERNAL_SERVER_ERROR, "当前登录状态过期");
         }
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -34,7 +34,7 @@ public class SecurityUtils {
             }
             return userDetailsService.loadUserByUsername(userDetails.getUsername());
         }
-        throw new CustomException(CustomExceptionType.SYSTEM_ERROR, "找不到当前登录的信息");
+        throw new CustomException(CustomExceptionType.INTERNAL_SERVER_ERROR, "找不到当前登录的信息");
 
     }
 

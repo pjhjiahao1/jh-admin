@@ -1,25 +1,28 @@
 package me.jiahao.exception;
 
 public enum CustomExceptionType {
-    USER_INPUT_ERROR(400,"用户输入异常"),
-    SYSTEM_ERROR (500,"系统服务异常"),
-    NOT_FIND_ERROR (404,"系统服务异常"),
-    OTHER_ERROR(403,"其他未知异常");
 
-    CustomExceptionType(int code, String typeDesc) {
+    // 成功
+    SUCCESS(200),
+
+    // 失败
+    FAIL(400),
+
+    // 未认证（签名错误）
+    UNAUTHORIZED(401),
+
+    // 资源不可用
+    UNFORBIDDEN(403),
+
+    // 接口不存在
+    NOT_FOUND(404),
+
+    // 服务器内部错误
+    INTERNAL_SERVER_ERROR(500);
+
+    public int code;
+
+    CustomExceptionType(int code) {
         this.code = code;
-        this.typeDesc = typeDesc;
-    }
-
-    private String typeDesc;//异常类型中文描述
-
-    private int code; //code
-
-    public String getTypeDesc() {
-        return typeDesc;
-    }
-
-    public int getCode() {
-        return code;
     }
 }

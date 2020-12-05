@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : panjiahao
@@ -56,17 +57,17 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
-    public R remove(Long id) {
+    public R remove(Long[] ids) {
         // 删除用户
-        int count = userMapper.remove(id);
+        int count = userMapper.batchRemove(ids);
         // 删除用户对于的角色
-        userRoleMapper.remove(id);
+        userRoleMapper.batchRemove(ids);
         return R.common(count);
     }
 
     @Override
-    public PageInfo<UserEntity> listForPage(PageRequest pageQuery) {
-        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+    public PageInfo<UserEntity> listForPage(Map<String,Object> params) {
+        PageHelper.startPage(Integer.parseInt(params.get("currentPage").toString()), Integer.parseInt(params.get("pageSize").toString()));
         List<UserEntity> sysMenus = userMapper.listForPage();
         PageInfo<UserEntity> pageInfo = new PageInfo<>(sysMenus);
         return pageInfo;

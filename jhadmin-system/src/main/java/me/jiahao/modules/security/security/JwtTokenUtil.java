@@ -87,6 +87,7 @@ public class JwtTokenUtil {
             Date expiration = claims.getExpiration();
             return expiration.before(new Date());
         } catch (Exception e) {
+            System.out.println("过期了。。。。。。。。。。。。。。。");
             return false;
         }
     }

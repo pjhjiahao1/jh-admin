@@ -38,7 +38,7 @@
 <script>
   import Tables from '_c/tables'
   import { listForPage, save, update, remove } from '@/${jsPathName}'
-  import { Message } from 'iview'
+  import { Notice } from 'iview'
   export default {
     name: '${menuCode}',
     components: {
@@ -164,14 +164,20 @@
             switch (this.title) {
             case '新增':
             save(this.${classname}).then(res => {
-              Message.success(res.data.message);
+              Notice.success({
+                title: '消息通知',
+                desc: res.data.msg
+              });
               this.flag = false;
               this.listForPage(this.page,this.pageSize);
             })
             break
             case '编辑':
             update(this.${classname}).then(res => {
-              Message.success(res.data.message);
+              Notice.success({
+                title: '消息通知',
+                desc: res.data.msg
+              });
               this.flag = false;
               this.listForPage(this.page,this.pageSize);
             })
@@ -191,7 +197,10 @@
             title : '删除确认？',
             onOk : function (){
               remove({id: params.id}).then(res => {
-                Message.success(res.data.message);
+                Notice.success({
+                  title: '消息通知',
+                  desc: res.data.msg
+                });
                 this.listForPage(this.page,this.pageSize);
               })
             },

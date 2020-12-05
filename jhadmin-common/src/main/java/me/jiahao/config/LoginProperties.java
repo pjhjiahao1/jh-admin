@@ -85,7 +85,7 @@ public class LoginProperties {
                     captcha.setLen(loginCode.getLength());
                     break;
                 default:
-                    throw new CustomException(CustomExceptionType.SYSTEM_ERROR,"验证码配置信息错误！正确配置查看 LoginCodeEnum ");
+                    throw new CustomException(CustomExceptionType.INTERNAL_SERVER_ERROR,"验证码配置信息错误！正确配置查看 LoginCodeEnum ");
             }
         }
         if(StringUtils.isNotBlank(loginCode.getFontName())){

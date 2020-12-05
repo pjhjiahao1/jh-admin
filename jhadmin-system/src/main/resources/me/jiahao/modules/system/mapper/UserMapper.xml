@@ -94,8 +94,11 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <delete id="remove">
-        delete from sys_user where id = #{id}
+    <delete id="batchRemove">
+        delete from sys_user where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
     </delete>
 
 </mapper>

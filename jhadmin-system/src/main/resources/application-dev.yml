@@ -107,3 +107,7 @@ mybatis:
 logging:
   level:
     me.jiahao.modules.system.mapper: debug
+
+#是否开启 swagger-ui
+swagger:
+  enabled: true

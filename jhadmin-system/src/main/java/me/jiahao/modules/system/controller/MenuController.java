@@ -25,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/menus")
+@Api(tags = "系统：菜单管理")
 public class MenuController {
 
     private final MenuService menuService;
@@ -37,6 +38,7 @@ public class MenuController {
     * @Author: panjiahao
     * @Date: 2020/10/8
     */
+    @ApiOperation("构建左侧菜单栏")
     @PreAuthorize("@el.check('menu:list')")
     @GetMapping(value = "/build")
     public R buildMenus(){
@@ -55,6 +57,7 @@ public class MenuController {
      * @Author: panjiahao
      * @Date: 2020/10/8
      */
+    @ApiOperation("构建角色管理菜单树")
     @PreAuthorize("@el.check('menu:list')")
     @GetMapping(value = "/tree")
     public R buildMenusTree(@RequestParam(value = "rolecode",required = true) String rolecode){
@@ -82,6 +85,7 @@ public class MenuController {
         return R.success(o);
     }
 
+    @ApiOperation("菜单列表")
     @PreAuthorize("@el.check('menu:list')")
     @GetMapping
     public R listMenu () {
@@ -99,6 +103,7 @@ public class MenuController {
     * @Author: panjiahao
     * @Date: 2020/11/19
     */
+    @ApiOperation("获取一级菜单")
     @PreAuthorize("@el.check('menu:list')")
     @GetMapping(value = "/firstMenu")
     public R getFirstMenu () {
@@ -108,6 +113,7 @@ public class MenuController {
         return R.success(menuForParams);
     }
 
+    @ApiOperation("保存")
     @PreAuthorize("@el.check('menu:list')")
     @PostMapping
     public R save (MenuEntity menuEntity) {
@@ -122,12 +128,14 @@ public class MenuController {
         return menuService.save(menuEntity);
     }
 
+    @ApiOperation("更新")
     @PreAuthorize("@el.check('menu:list')")
     @PutMapping
     public R update (MenuEntity menuEntity) {
         return menuService.update(menuEntity);
     }
 
+    @ApiOperation("删除")
     @PreAuthorize("@el.check('menu:list')")
     @DeleteMapping
     public R remove (@RequestParam(value = "id") Long id) {

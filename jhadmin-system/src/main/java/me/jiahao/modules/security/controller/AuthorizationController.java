@@ -2,8 +2,12 @@ package me.jiahao.modules.security.controller;
 
 import cn.hutool.core.util.IdUtil;
 import com.wf.captcha.base.Captcha;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import me.jiahao.annotation.AnonymousAccess;
 import me.jiahao.annotation.rest.AnonymousDeleteMapping;
+import me.jiahao.annotation.rest.AnonymousGetMapping;
+import me.jiahao.annotation.rest.AnonymousPostMapping;
 import me.jiahao.config.LoginCodeEnum;
 import me.jiahao.config.LoginProperties;
 import me.jiahao.config.RsaProperties;
@@ -33,6 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @author : panjiahao
  * @date : 13:46 2020/9/10
  */
+@Api(tags = "系统：系统授权接口")
 @RestController
 @RequestMapping("/auth")
 public class AuthorizationController {
@@ -46,8 +51,8 @@ public class AuthorizationController {
     @Resource
     JwtTokenUtil jwtTokenUtil;
 
-    @AnonymousAccess
-    @GetMapping(value = "/code")
+    @ApiOperation("验证码")
+    @AnonymousGetMapping(value = "/code")
     public R getCode() {
         // 获取运算的结果
         Captcha captcha = loginProperties.getCaptcha();
@@ -68,8 +73,8 @@ public class AuthorizationController {
         return R.success(imgResult);
     }
 
-    @AnonymousAccess
-    @PostMapping(value = "/login")
+    @ApiOperation("登陆")
+    @AnonymousPostMapping(value = "/login")
     public R login(@RequestBody AuthUserEntity authUser, HttpServletRequest request) throws Exception{
         String username =authUser.getUsername();
         String password = authUser.getPassword();
@@ -90,14 +95,15 @@ public class AuthorizationController {
         return R.success(userMap);
     }
 
-    @GetMapping(value = "/info")
+    @ApiOperation("获取用户信息")
+    @AnonymousGetMapping(value = "/info")
     public R userInfo (HttpServletRequest request) {
         UserDetailsEntity currentUser = (UserDetailsEntity) SecurityUtils.getCurrentUser();
         return R.success(currentUser);
     }
 
-    @DeleteMapping(value = "/logout")
-    @AnonymousDeleteMapping
+    @ApiOperation("退出登录")
+    @AnonymousDeleteMapping(value = "/logout")
     public R logout(HttpServletRequest request) {
         String header = request.getHeader(jwtTokenUtil.getHeader());
         redisTemplate.delete(jwtTokenUtil.getOnlineKey() + header);
