@@ -11,6 +11,7 @@ import me.jiahao.utils.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : panjiahao
@@ -37,7 +38,7 @@ public class RoleController {
     @ApiOperation("查询全部角色 不加权限 主做数据字典")
     @GetMapping(value = "/all")
     public R qurey () {
-        List<RoleEntity> allRole = roleService.getAllRole();
+        List<RoleEntity> allRole = roleService.list();
         return R.success(allRole);
     }
     /*
@@ -51,8 +52,8 @@ public class RoleController {
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('role:list')")
     @GetMapping
-    public R listForPage(PageRequest pageQuery) {
-        return R.success(roleService.listForPage(pageQuery));
+    public R listForPage(@RequestParam Map<String,Object> params) {
+        return R.success(roleService.listForPage(params));
     }
     /*
     **
@@ -81,12 +82,13 @@ public class RoleController {
     @ApiOperation("删除")
     @PreAuthorize("@el.check('role:list')")
     @DeleteMapping
-    public R remove(@RequestParam(value = "id") Long id) {
-        int res = userRoleMapper.getUserRole(id);
-        if (res > 0) {
-            return R.warn("有用户关联此角色暂不能删除");
-        }
-        int count = roleService.remove(id);
+    public R remove(@RequestBody Long[] ids) {
+
+//        int res = userRoleMapper.getUserRole(id);
+//        if (res > 0) {
+//            return R.warn("有用户关联此角色暂不能删除");
+//        }
+        int count = roleService.batchRemove(ids);
         return R.common(count);
     }
 

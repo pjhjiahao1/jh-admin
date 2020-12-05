@@ -44,7 +44,7 @@ public class MenuServiceImpl implements MenuService {
         if (StringUtils.isNotBlank(role)) {
             roleCode.add(role);
         } else {
-            List<RoleEntity> allRole = roleMapper.getAllRole();
+            List<RoleEntity> allRole = roleMapper.list();
             for (RoleEntity r : allRole) {
                 roleCode.add(r.getRoleCode());
             }

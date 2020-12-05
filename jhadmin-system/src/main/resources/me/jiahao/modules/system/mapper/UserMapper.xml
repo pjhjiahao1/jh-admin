@@ -23,6 +23,17 @@
             on a.id = b.user_id
             left join sys_role c
             on b.role_id = c.id
+            <where>
+                <if test="username != null">
+                    and a.username like concat('%',#{username},'%')
+                </if>
+                <if test="nickName != null">
+                    and a.nick_name like concat('%',#{nickName},'%')
+                </if>
+                <if test="roleName != null">
+                    and a.role_name like concat('%',#{roleName},'%')
+                </if>
+            </where>
     </select>
 
     <select id="getUserByUserName" resultType="me.jiahao.modules.system.entity.UserEntity">

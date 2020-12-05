@@ -5,9 +5,11 @@ import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.utils.PageRequest;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.management.relation.Role;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : panjiahao
@@ -15,13 +17,13 @@ import java.util.List;
  */
 public interface RoleService {
 
-    List<RoleEntity> getAllRole();
+    List<RoleEntity> list();
 
-    PageInfo<RoleEntity> listForPage(PageRequest pageQuery);
+    PageInfo<RoleEntity> listForPage(Map<String,Object> params);
 
     int save(RoleEntity roleEntity);
 
     int update(RoleEntity roleEntity);
 
-    int remove(Long id);
+    int batchRemove(Long[] ids);
 }

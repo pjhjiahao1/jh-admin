@@ -1,5 +1,6 @@
 package me.jiahao.modules.system.mapper;
 
+import me.jiahao.base.BaseMapper;
 import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author : panjiahao
  * @date : 15:58 2020/9/30
  */
-public interface RoleMapper {
+public interface RoleMapper extends BaseMapper<RoleEntity> {
     /*
     **
     * @Description: 查询所有角色
@@ -18,7 +19,7 @@ public interface RoleMapper {
     * @Author: panjiahao
     * @Date: 2020/10/8
     */
-    List<RoleEntity> getAllRole();
+//    List<RoleEntity> getAllRole();
     /*
     **
     * @Description: 分页查询
@@ -27,7 +28,7 @@ public interface RoleMapper {
     * @Author: panjiahao
     * @Date: 2020/10/8
     */
-    List<RoleEntity> listForPage();
+//    List<RoleEntity> listForPage();
     /*
     **
     * @Description: 保存
@@ -36,7 +37,7 @@ public interface RoleMapper {
     * @Author: panjiahao
     * @Date: 2020/10/10
     */
-    int save(RoleEntity roleEntity);
+//    int save(RoleEntity roleEntity);
     /*
     **
     * @Description: 更新
@@ -45,7 +46,7 @@ public interface RoleMapper {
     * @Author: panjiahao
     * @Date: 2020/10/10
     */
-    int update(RoleEntity roleEntity);
+//    int update(RoleEntity roleEntity);
     /*
     **
     * @Description: 删除
@@ -54,6 +55,6 @@ public interface RoleMapper {
     * @Author: panjiahao
     * @Date: 2020/10/10
     */
-    int remove(Long id);
+//    int remove(Long id);
 
 }

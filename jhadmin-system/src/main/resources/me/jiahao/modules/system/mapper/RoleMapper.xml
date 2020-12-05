@@ -15,9 +15,20 @@
             update_time,
             update_by
         from sys_role
+        <where>
+            <if test="roleName != null">
+                and role_name like concat('%',#{roleName},'%')
+            </if>
+            <if test="roleCode != null">
+                and role_code like concat('%',#{roleCode},'%')
+            </if>
+            <if test="roleDesc != null">
+                and role_desc like concat('%',#{roleDesc},'%')
+            </if>
+        </where>
     </select>
 
-    <select id="getAllRole" resultType="me.jiahao.modules.system.entity.RoleEntity">
+    <select id="list" resultType="me.jiahao.modules.system.entity.RoleEntity">
         select
             id,
             role_name,
@@ -70,8 +81,11 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <delete id="remove">
-        delete from sys_role where id = #{id}
+    <delete id="batchRemove">
+        delete from sys_role where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
     </delete>
 
 </mapper>

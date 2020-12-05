@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageInfo<UserEntity> listForPage(Map<String,Object> params) {
         PageHelper.startPage(Integer.parseInt(params.get("currentPage").toString()), Integer.parseInt(params.get("pageSize").toString()));
-        List<UserEntity> sysMenus = userMapper.listForPage();
+        List<UserEntity> sysMenus = userMapper.listForPage(params);
         PageInfo<UserEntity> pageInfo = new PageInfo<>(sysMenus);
         return pageInfo;
     }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.mapper.RoleMapper;
 import me.jiahao.modules.system.mapper.RoleMenuMapper;
+import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.RoleService;
 import me.jiahao.utils.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : panjiahao
@@ -25,18 +27,19 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleMapper roleMapper;
     private final RoleMenuMapper roleMenuMapper;
+    private final UserRoleMapper userRoleMapper;
 
     @Override
-    public PageInfo<RoleEntity> listForPage(PageRequest pageQuery) {
-        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
-        List<RoleEntity> sysRoles = roleMapper.listForPage();
+    public PageInfo<RoleEntity> listForPage(Map<String,Object> params) {
+        PageHelper.startPage(Integer.parseInt(params.get("currentPage").toString()), Integer.parseInt(params.get("pageSize").toString()));
+        List<RoleEntity> sysRoles = roleMapper.listForPage(params);
         PageInfo<RoleEntity> pageInfo = new PageInfo<>(sysRoles);
         return pageInfo;
     }
 
     @Override
-    public List<RoleEntity> getAllRole() {
-        return roleMapper.getAllRole();
+    public List<RoleEntity> list() {
+        return roleMapper.list();
     }
 
     @Override
@@ -51,8 +54,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
-    public int remove(Long id) {
-        roleMenuMapper.remove(id);
-        return roleMapper.remove(id);
+    public int batchRemove(Long[] ids) {
+        userRoleMapper.batchRemove(ids);
+        roleMenuMapper.batchRemove(ids);
+        return roleMapper.batchRemove(ids);
     }
 }

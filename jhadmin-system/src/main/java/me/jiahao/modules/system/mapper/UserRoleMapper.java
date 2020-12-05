@@ -8,5 +8,5 @@ import me.jiahao.modules.system.entity.UserRoleEntity;
  * @date : 16:57 2020/9/30
  */
 public interface UserRoleMapper extends BaseMapper<UserRoleEntity> {
-    int getUserRole(Long id);
+//    int getUserRole(Long id);
 }
