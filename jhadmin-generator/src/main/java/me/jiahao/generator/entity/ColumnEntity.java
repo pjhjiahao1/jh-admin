@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @date : 14:30 2020/11/25
  */
 public class ColumnEntity implements Serializable {
+    private static final long serialVersionUID = -1211246593032332900L;
     //列名
     private String columnName;
     //列名类型

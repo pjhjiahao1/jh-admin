@@ -4,10 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.modules.system.entity.RoleEntity;
+import me.jiahao.modules.system.entity.UserEntity;
+import me.jiahao.modules.system.entity.bo.RoleExcelBO;
+import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.mapper.RoleMapper;
 import me.jiahao.modules.system.mapper.RoleMenuMapper;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.RoleService;
+import me.jiahao.utils.Conversion;
 import me.jiahao.utils.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -28,6 +32,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
     private final RoleMenuMapper roleMenuMapper;
     private final UserRoleMapper userRoleMapper;
+    private final Conversion conversion;
 
     @Override
     public PageInfo<RoleEntity> listForPage(Map<String,Object> params) {
@@ -58,5 +63,12 @@ public class RoleServiceImpl implements RoleService {
         userRoleMapper.batchRemove(ids);
         roleMenuMapper.batchRemove(ids);
         return roleMapper.batchRemove(ids);
+    }
+
+    @Override
+    public List<RoleExcelBO> findSysRole(Map<String, Object> params) {
+        List<RoleEntity> list = roleMapper.listForPage(params);
+        List<RoleExcelBO> userCheckDataList = conversion.typeConversion(new RoleExcelBO(), list);
+        return userCheckDataList;
     }
 }

@@ -182,7 +182,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuEntity> getMenuForParams(Map<String, Object> params) {
-        return menuMapper.getMenuForParams(params);
+        return menuMapper.listForPage(params);
     }
 
     @Override

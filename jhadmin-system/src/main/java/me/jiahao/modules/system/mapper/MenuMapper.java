@@ -13,5 +13,5 @@ import java.util.Map;
 public interface MenuMapper extends BaseMapper<MenuEntity> {
     List<MenuEntity> getMenuForRole (List<String> list);
 
-    List<MenuEntity> getMenuForParams(Map<String,Object> params);
+//    List<MenuEntity> getMenuForParams(Map<String,Object> params);
 }

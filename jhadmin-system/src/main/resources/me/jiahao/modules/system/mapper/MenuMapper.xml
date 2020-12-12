@@ -17,7 +17,7 @@
         order by c.level,c.sort
     </select>
 
-    <select id="getMenuForParams" resultType="me.jiahao.modules.system.entity.MenuEntity">
+    <select id="listForPage" resultType="me.jiahao.modules.system.entity.MenuEntity">
         select
         id,
         menu_pid,

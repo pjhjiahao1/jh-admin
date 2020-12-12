@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class GeneratorTableEntity extends BaseEntity implements Serializable {
+    private static final long serialVersionUID = -6599240816503990649L;
     private String tableName; // 表名
     private String engine; // 数据库引擎
     private String tableCollation; // 字符编码集

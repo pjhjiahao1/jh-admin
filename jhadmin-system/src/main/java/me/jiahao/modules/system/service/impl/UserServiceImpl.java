@@ -6,16 +6,16 @@ import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.modules.system.entity.UserRoleEntity;
+import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.mapper.UserMapper;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.UserService;
-import me.jiahao.utils.PageRequest;
+import me.jiahao.utils.Conversion;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +28,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
-
     private final UserRoleMapper userRoleMapper;
+    private final Conversion conversion;
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
@@ -71,5 +71,13 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> sysMenus = userMapper.listForPage(params);
         PageInfo<UserEntity> pageInfo = new PageInfo<>(sysMenus);
         return pageInfo;
+    }
+
+    @Override
+    public List<UserExcelBO> findSysUser(Map<String, Object> params) {
+        List<UserEntity> list = userMapper.listForPage(params);
+        List<UserExcelBO> userCheckDataList = conversion.typeConversion(new UserExcelBO(), list);
+        return userCheckDataList;
+
     }
 }

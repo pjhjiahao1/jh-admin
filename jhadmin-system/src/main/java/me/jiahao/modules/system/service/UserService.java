@@ -3,8 +3,9 @@ package me.jiahao.modules.system.service;
 import com.github.pagehelper.PageInfo;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.UserEntity;
-import me.jiahao.utils.PageRequest;
+import me.jiahao.modules.system.entity.bo.UserExcelBO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +17,5 @@ public interface UserService {
     R save (UserEntity userEntity);
     R update(UserEntity userEntity);
     R remove(Long[] id);
+    List<UserExcelBO> findSysUser(Map<String,Object> params);
 }

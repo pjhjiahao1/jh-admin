@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -11,7 +12,8 @@ import java.util.Collection;
  * @date : 15:13 2020/9/17
  */
 @Data
-public class UserDetailsEntity implements UserDetails {
+public class UserDetailsEntity implements UserDetails , Serializable {
+    private static final long serialVersionUID = 1730249448995276985L;
     String id; //用户id
     String password; //密码
     String username;  //用户名

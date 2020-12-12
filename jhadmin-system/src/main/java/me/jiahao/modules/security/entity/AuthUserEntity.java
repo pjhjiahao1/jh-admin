@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * @author : panjiahao
@@ -11,8 +12,9 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class AuthUserEntity {
+public class AuthUserEntity implements Serializable {
 
+    private static final long serialVersionUID = 3202908217544996655L;
     private String username;
 
     private String password;

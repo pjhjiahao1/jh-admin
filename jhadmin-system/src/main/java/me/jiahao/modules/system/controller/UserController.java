@@ -6,11 +6,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.UserEntity;
+import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.service.UserService;
-import me.jiahao.utils.PageRequest;
+import me.jiahao.utils.EasyExcelUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +28,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+
 
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('user:list')")
@@ -84,6 +89,23 @@ public class UserController {
             }
         }
         return userService.remove(ids);
+    }
+
+    /*
+    **
+    * @Description: 导出
+    * @Param: []
+    * @return: me.jiahao.exception.R
+    * @Author: panjiahao
+    * @Date: 2020/12/7
+    */
+    @ApiOperation("导出")
+    @PreAuthorize("@el.check('user:list')")
+    @PostMapping(value = "export")
+    public void exportExcel(@RequestBody Map<String,Object> params,HttpServletResponse response) throws IOException{
+        List<UserExcelBO> list = userService.findSysUser(params);
+        // 导出
+        EasyExcelUtil.exportExcel(response,UserExcelBO.class,list);
     }
 
 }

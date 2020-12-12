@@ -27,7 +27,19 @@ export const update = (params) => {
 export const remove = (params) => {
     return axios.request({
         url: 'api/${pathName}',
-        params,
+        data: params,
         method: 'delete'
+    })
+}
+
+export const exportExcel = (params) => {
+    return axios.request({
+        url: 'api/${pathName}/export',
+        method: 'post',
+        data: params,
+        responseType: "blob",
+        headers: {
+            'Content-Type': 'application/json'
+        },
     })
 }

@@ -5,11 +5,17 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.RoleEntity;
+import me.jiahao.modules.system.entity.bo.RoleExcelBO;
+import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.RoleService;
+import me.jiahao.utils.EasyExcelUtil;
 import me.jiahao.utils.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -26,43 +32,20 @@ public class RoleController {
     private final RoleService roleService;
     private final UserRoleMapper userRoleMapper;
 
-
-    /*
-    **
-    * @Description: 查询全部角色 不加权限 主做数据字典
-    * @Param: []
-    * @return: me.jiahao.exception.R
-    * @Author: panjiahao
-    * @Date: 2020/9/30
-    */
     @ApiOperation("查询全部角色 不加权限 主做数据字典")
     @GetMapping(value = "/all")
     public R qurey () {
         List<RoleEntity> allRole = roleService.list();
         return R.success(allRole);
     }
-    /*
-    **
-    * @Description: 分页查询
-    * @Param: [pageQuery]
-    * @return: me.jiahao.exception.R
-    * @Author: panjiahao
-    * @Date: 2020/10/8
-    */
+
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('role:list')")
     @GetMapping
     public R listForPage(@RequestParam Map<String,Object> params) {
         return R.success(roleService.listForPage(params));
     }
-    /*
-    **
-    * @Description: 保存
-    * @Param: [roleEntity]
-    * @return: me.jiahao.exception.R
-    * @Author: panjiahao
-    * @Date: 2020/10/10
-    */
+
     @ApiOperation("保存")
     @PreAuthorize("@el.check('role:list')")
     @PostMapping
@@ -83,13 +66,17 @@ public class RoleController {
     @PreAuthorize("@el.check('role:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
-
-//        int res = userRoleMapper.getUserRole(id);
-//        if (res > 0) {
-//            return R.warn("有用户关联此角色暂不能删除");
-//        }
         int count = roleService.batchRemove(ids);
         return R.common(count);
+    }
+
+    @ApiOperation("导出")
+    @PreAuthorize("@el.check('role:list')")
+    @PostMapping(value = "export")
+    public void exportExcel(@RequestBody Map<String,Object> params, HttpServletResponse response) throws IOException {
+        List<RoleExcelBO> list = roleService.findSysRole(params);
+        // 导出
+        EasyExcelUtil.exportExcel(response,RoleExcelBO.class,list);
     }
 
 }

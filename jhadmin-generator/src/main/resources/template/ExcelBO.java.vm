@@ -1,0 +1,28 @@
+package ${package}.${moduleName}.entity.bo;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Data;
+import java.io.Serializable;
+
+/**
+ * @author : panjiahao
+ * @date : 15:14 2020/12/7
+ */
+@Data
+public class ${className}BO implements Serializable {
+
+	#foreach ($column in $columns)
+		#if($column.attrname != 'createTime' && $column.attrname != 'updateTime' &&
+			$column.attrname != 'createBy' && $column.attrname != 'updateBy')
+			@ExcelProperty("$column.comments")
+			private
+			#if($column.attrType == 'int')
+				Long
+			#else
+				$column.attrType
+			#end
+			$column.attrname;
+		#end
+	#end
+
+}

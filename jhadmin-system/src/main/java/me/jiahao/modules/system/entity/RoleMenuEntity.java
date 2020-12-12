@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class RoleMenuEntity implements Serializable {
+    private static final long serialVersionUID = -4454517147878023404L;
     private Long id;
     private Long roleId;
     private Long MenuId;

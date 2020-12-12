@@ -15,6 +15,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class MenuTreeVo implements Serializable {
 
+    private static final long serialVersionUID = -4665328678737608078L;
     private String title;
 
     private Boolean checked;

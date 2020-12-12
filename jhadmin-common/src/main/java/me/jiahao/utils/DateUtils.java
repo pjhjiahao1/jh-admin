@@ -3,13 +3,14 @@ package me.jiahao.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 日期处理
- * 
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2016年12月21日 下午12:53:33
- */
+/*
+**
+* @Description: 日期格式工具类
+* @Param: 
+* @return: 
+* @Author: panjiahao
+* @Date: 2020/12/7
+*/
 public class DateUtils {
 	/** 时间格式(yyyy-MM-dd) */
 	public final static String DATE_PATTERN = "yyyy-MM-dd";

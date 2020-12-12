@@ -16,6 +16,7 @@ import java.util.Date;
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class UserEntity extends BaseEntity implements Serializable {
+    private static final long serialVersionUID = 2988029030564859565L;
     private Long id;
     private String username;
     private int enabled;

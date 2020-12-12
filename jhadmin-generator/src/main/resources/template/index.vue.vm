@@ -1,15 +1,17 @@
 <template>
   <div>
     <Card>
-      <Row type="flex" justify="start" class="code-row-bg">
-        <Button type="success" icon="md-add" @click="add">新增</Button>
-      </Row>
-      <br>
-      <tables ref="tables" pageInfo editable v-model="tableData" :columns="columns" :changePageCallback="changePageCallback" :total="total" :page-size="pageSize"
-              :current="page" />
+      <vxe-grid ref="xGrid" v-bind="gridOptions" :toolbar-config="tableToolbar">
+        <template v-slot:toolbar_buttons>
+          <vxe-button status="primary" @click="add">新增</vxe-button>
+          <vxe-button status="success" @click="edit">编辑</vxe-button>
+          <vxe-button status="danger" @click="remove">删除</vxe-button>
+          <vxe-button status="warning" @click="exportExcel">导出</vxe-button>
+        </template>
+      </vxe-grid>
     </Card>
     <Modal
-            v-model="flag"
+            v-model="modelflag"
             :title="title"
             :mask-closable="false"
             :closable="true"
@@ -24,9 +26,9 @@
         <Row type="flex" justify="end" class="code-row-bg">
           <FormItem>
             <Button type="primary"
-                    @click="ok('${classname}Form')"
+                    @click="confirm('${classname}Form')"
             >确定</Button>
-            <Button @click="flag=false"
+            <Button @click="modelflag=false"
                     style="margin-left: 8px">取消</Button>
           </FormItem>
         </Row>
@@ -36,96 +38,132 @@
 </template>
 
 <script>
-  import Tables from '_c/tables'
-  import { listForPage, save, update, remove } from '@/${jsPathName}'
+  import {
+    listForPage,
+    save,
+    update,
+    remove,
+    exportExcel
+  } from '@/${jsPathName}'
   import { Notice } from 'iview'
   export default {
     name: '${menuCode}',
-    components: {
-      Tables
-    },
+    components: {},
     data () {
       return {
-        columns: [
-          #foreach ($column in $columns)
-            { title: '${column.comments}', key: '${column.attrname}'}#if($foreach.hasNext),#end
-          #end
-          {
-            title: "操作",
-            key: "action",
-            fixed: "right",
-            minWidth: 180,
-            align: "center",
-            render: (h, params) => {
-              return h("div", [
-                h(
-                        "Tooltip",
-                        {
-                          props: {
-                            trigger: "hover",
-                            content: "修改",
-                            placement: "top",
-                            transfer: true
-                          }
-                        },
-                        [
-                          h("Button", {
-                            props: {
-                              type: "info",
-                              size: "small",
-                              icon: "ios-create-outline"
-                            },
-                            style: {
-                              marginRight: "5px"
-                            },
-                            on: {
-                              click: () => {
-                                this.edit(params.row);
-                              }
-                            }
-                          })
-                        ]
-                ),
-                h(
-                        "Tooltip",
-                        {
-                          props: {
-                            trigger: "hover",
-                            content: "删除",
-                            placement: "top",
-                            transfer: true
-                          }
-                        },
-                        [
-                          h("Button", {
-                            props: {
-                              type: "error",
-                              size: "small",
-                              icon: "ios-trash"
-                            },
-                            on: {
-                              click: () => {
-                                this.delete(params.row);
-                              }
-                            }
-                          })
-                        ]
-                )
-              ]);
-            }
+        tableToolbar: {
+          // 工具栏
+          refresh: true,
+          // export: true,
+          custom: true,
+          slots: {
+            buttons: "toolbar_buttons"
           }
-        ],
-        tableData: [],
-        total: 0, // 条数
-        page: 1, // 当前页
-        pageSize: 10, // 显示条数
+        },
+        gridOptions: {
+          // 表格配置
+          border: true, // 是否带有边框
+          resizable: true, // 所有的列是否允许拖动列宽调整大小
+          showHeaderOverflow: true, // 设置表头所有内容过长时显示为省略号
+          showOverflow: true, // 设置所有内容过长时显示为省略号（如果是固定列建议设置该值，提升渲染速度）
+          highlightHoverRow: true, // 鼠标移到行是否要高亮显示
+          keepSource: true, // 保持原始值的状态，被某些功能所依赖，比如编辑状态、还原数据等（开启后影响性能，具体取决于数据量）
+          id: "${menuCode}", // 唯一标识（被某些特定的功能所依赖）
+          height: document.documentElement.clientHeight - 150,
+          rowId: "id", // 自定义行数据唯一主键的字段名（行数据必须要有唯一主键，默认自动生成）
+          customConfig: {
+            // 自定义列配置项
+            storage: true, // 是否启用 localStorage 本地保存，会将列操作状态保留在本地（需要有 id）
+            checkMethod: this.checkColumnMethod // 自定义列是否允许列选中的方法，该方法 Function({ column }) 的返回值用来决定这一列的 checkbox 是否可以选中
+          },
+          sortConfig: {
+            // 排序配置项
+            trigger: "cell" // default（点击按钮触发）, cell（点击表头触发）
+          },
+          pagerConfig: {
+            pageSize: 10,
+            pageSizes: [5, 20, 50, 100, 500, 1000]
+          },
+          formConfig: {
+            titleWidth: 100,
+            titleAlign: "right",
+            items: [
+              #foreach ($column in $columns)
+                {
+                  field: "${column.attrname}",
+                  title: "${column.comments}",
+                  span: 8,
+                  itemRender: {
+                    name: "$input",
+                    props: { placeholder: "请输入" }
+                  }
+                },
+              #end
+              {
+                span: 24,
+                align: "center",
+                collapseNode: true,
+                itemRender: {
+                  name: "$buttons",
+                  children: [
+                    {
+                      props: {
+                        type: "submit",
+                        content: "查询",
+                        status: "primary"
+                      }
+                    },
+                    { props: { type: "reset", content: "重置" } }
+                  ]
+                }
+              }
+            ]
+          },
+          proxyConfig: {
+            seq: true, // 启用动态序号代理
+            form: true, // 启用表单代理
+            props: {
+              result: "result",
+              total: "page.total"
+            },
+            ajax: {
+              // 接收 Promise 对象
+              query: ({ page, form }) => {
+                // // 处理排序条件
+                const queryParams = Object.assign(
+                        {
+                          pageSize: page.pageSize,
+                          currentPage: page.currentPage
+                        },
+                        form
+                );
+                return this.list(queryParams); //XEAjax.get(`https://api.xuliangzhan.com:10443/api/pub/page/list/${page.pageSize}/${page.currentPage}`, queryParams)
+              }
+            }
+          },
+          columns: [
+            { type: "checkbox", width: 40 },
+            { type: "seq", title: "序号", width: 50 },
+            #foreach ($column in $columns)
+              #if($column.attrname != 'createTime' && $column.attrname != 'updateTime' &&
+                $column.attrname != 'createBy' && $column.attrname != 'updateBy')
+                { field: "${column.attrname}", title: "${column.comments}", sortable: true }#if($foreach.hasNext),#end
+              #end
+            #end
+          ],
+          checkboxConfig: {
+            reserve: true,
+            highlight: true,
+            range: true
+          }
+        },
         title: '',
         ${classname}: {
           #foreach ($column in $columns)
-            ${column.attrname}#if($foreach.hasNext),#end
+            ${column.attrname}: '' #if($foreach.hasNext),#end
           #end
         },
-        flag: false,
+        modelflag: false,
         ruleInline: {
           #foreach ($column in $columns)
             ${column.attrname}: [
@@ -142,23 +180,22 @@
     async created() {
     },
     methods: {
-      changePageCallback (page, pageSize) {
-        this.page = page
-        this.listForPage(page,pageSize)
-      },
-      listForPage (page,pageSize) {
-        const params = { pageNum: page, pageSize: pageSize}
-        listForPage(params).then(res => {
-          this.total = Number(res.data.data.total)
-          this.tableData = res.data.data.list
-        })
+      list(queryParams) {
+        return new Promise(resolve => {
+          listForPage(queryParams).then(res => {
+            resolve({
+              result: res.data.data.list,
+              page: { total: Number(res.data.data.total) }
+            });
+          });
+        });
       },
       add () {
         this.title = '新增'
-        this.flag = true
+        this.modelflag = true
         this.$refs.${classname}Form.resetFields();
       },
-      ok () {
+      confirm () {
         this.$refs.${classname}Form.validate(async valid => {
           if (valid) {
             switch (this.title) {
@@ -168,8 +205,9 @@
                 title: '消息通知',
                 desc: res.data.msg
               });
-              this.flag = false;
-              this.listForPage(this.page,this.pageSize);
+              this.modelflag = false;
+              // 重新加载表格
+              this.$refs.xGrid.commitProxy("reload");
             })
             break
             case '编辑':
@@ -178,8 +216,9 @@
                 title: '消息通知',
                 desc: res.data.msg
               });
-              this.flag = false;
-              this.listForPage(this.page,this.pageSize);
+              this.modelflag = false;
+              // 重新加载表格
+              this.$refs.xGrid.commitProxy("reload");
             })
             break
             }
@@ -187,30 +226,65 @@
         })
       },
       edit (params) {
-        this.flag = true;
+        // 获取选中数据
+        let selectRecords = this.$refs.xGrid.getCheckboxRecords();
+        if (selectRecords.length == 0) {
+          Notice.warning({
+            title: "消息通知",
+            desc: "请选择数据!"
+          });
+          return;
+        } else if (selectRecords.length > 1) {
+          Notice.warning({
+            title: "消息通知",
+            desc: "不允许选择多条数据!"
+          });
+          return;
+        }
+        this.modelflag = true;
         this.title = '编辑'
         this.user = JSON.parse(JSON.stringify(params));
       },
-      delete (params) {
+      remove (params) {
+        // 获取选中数据
+        let selectRecords = this.$refs.xGrid.getCheckboxRecords(),
+                ids = [];
+        if (selectRecords.length == 0) {
+          Notice.warning({
+            title: "消息通知",
+            desc: "请选择数据!"
+          });
+          return;
+        }
+        selectRecords.forEach((value, key, arr) => {
+          ids[key] = value.id;
+        });
+
         this.$Modal
           .confirm({
             title : '删除确认？',
             onOk : function (){
-              remove({id: params.id}).then(res => {
+              remove(ids).then(res => {
                 Notice.success({
                   title: '消息通知',
                   desc: res.data.msg
                 });
-                this.listForPage(this.page,this.pageSize);
+                // 重新加载表格
+                this.$refs.xGrid.commitProxy("reload");
               })
             },
             closable: true
           });
+      },
+      exportExcel() {
+        const proxyInfo = this.$refs.xGrid.getProxyInfo()
+        let queryData = proxyInfo.form
+        exportExcel(queryData).then(res => {
+          downloadFile(res.data,$comments,'xlsx')
+        });
       }
     },
-    mounted () {
-      this.listForPage(this.page,this.pageSize);
-    }
+    mounted () {}
   }
 </script>
 

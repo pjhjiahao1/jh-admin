@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.entity.UserEntity;
+import me.jiahao.modules.system.entity.bo.RoleExcelBO;
 import me.jiahao.utils.PageRequest;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,4 +27,6 @@ public interface RoleService {
     int update(RoleEntity roleEntity);
 
     int batchRemove(Long[] ids);
+
+    List<RoleExcelBO> findSysRole(Map<String,Object> params);
 }

@@ -15,6 +15,7 @@ import java.util.Date;
 @Setter
 public class OnlineUserEntity implements Serializable {
 
+    private static final long serialVersionUID = 5773006853701599525L;
     /**
      * 用户名
      */

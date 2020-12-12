@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class MenuMetaVo implements Serializable {
+    private static final long serialVersionUID = 5994729442507652943L;
     private String icon;
     private String title;
     private boolean notCache;

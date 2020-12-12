@@ -127,6 +127,17 @@ public class MenuController {
         }
         return menuService.save(menuEntity);
     }
+    @ApiOperation("查询")
+    @PreAuthorize("@el.check('menu:list')")
+    @GetMapping(value = "list")
+    public R list (@RequestParam String menuPid) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("pid",menuPid);
+        List<MenuEntity> menuForParams = menuService.getMenuForParams(params);
+        return R.success(menuForParams);
+    }
+
+
 
     @ApiOperation("更新")
     @PreAuthorize("@el.check('menu:list')")

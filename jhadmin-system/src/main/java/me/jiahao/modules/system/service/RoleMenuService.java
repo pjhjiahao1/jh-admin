@@ -10,6 +10,5 @@ import java.util.List;
  * @date : 11:00 2020/10/9
  */
 public interface RoleMenuService {
-
      R save(Long roleId, List<MenuTreeVo> roleMenu);
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class Menuvo implements Serializable {
+    private static final long serialVersionUID = 2905495732016091666L;
     private String path;
     private String name;
     private String redirect;

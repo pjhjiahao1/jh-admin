@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class MenuEntity extends BaseEntity implements Serializable {
+    private static final long serialVersionUID = -2799068742108381436L;
     private Long id;
 
     private List<MenuEntity> children;

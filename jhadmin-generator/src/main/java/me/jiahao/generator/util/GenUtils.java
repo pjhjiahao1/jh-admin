@@ -38,6 +38,7 @@ public class GenUtils {
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
         templates.add("template/Entity.java.vm");
+        templates.add("template/ExcelBO.java.vm");
         templates.add("template/mapper.xml.vm");
 
         templates.add("template/menu.sql.vm");
@@ -312,8 +313,12 @@ public class GenUtils {
 //        if (template.contains("MongoChildrenEntity.java.vm")) {
 //            return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName+ File.separator + splitInnerName(className)+ "InnerEntity.java";
 //        }
-        if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
+        if (template.contains("Entity.java.vm")) {
             return packagePath + "entity" + File.separator + className + "Entity.java";
+        }
+
+        if (template.contains("ExcelBO.java.vm")) {
+            return packagePath + "entity" +File.separator + "bo" + File.separator + className + "BO.java";
         }
 
         if (template.contains("mapper.java.vm")) {
@@ -341,7 +346,7 @@ public class GenUtils {
         }
 
         if (template.contains("index.vue.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "src" + File.separator + "vue" + File.separator + className.toLowerCase() + ".vue";
+            return "main" + File.separator + "resources" + File.separator + "src" + File.separator + "vue" + File.separator + "index.vue";
         }
 
         if (template.contains("index.js.vm")) {

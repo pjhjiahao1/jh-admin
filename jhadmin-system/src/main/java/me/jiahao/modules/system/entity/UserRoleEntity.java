@@ -15,6 +15,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class UserRoleEntity implements Serializable {
 
+    private static final long serialVersionUID = -6950357144319839025L;
     private Long id;
     private Long roleId;
     private Long userId;

@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${package}.${moduleName}.dao.${className}Dao">
+<mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="${package}.${moduleName}.entity.${className}Entity" id="${classname}Map">
-#foreach($column in $columns)
-        <result property="${column.attrname}" column="${column.columnName}"/>
-#end
-    </resultMap>
     <select id="listForPage" resultType="${package}.${moduleName}.entity.${className}Entity">
         select
             #foreach($column in $columns)
@@ -16,18 +10,37 @@
 
             #end
         from ${tableName}
+        <where>
+            #foreach($column in $columns)
+                <if test="${column.attrname} != null and ${column.attrname} != ''">
+                    and ${column.columnName} like concat('%',#{${column.attrname}},'%')
+                </if>
+            #end
+        </where>
     </select>
     <insert id="save" >
         insert into ${tableName}
         (
             #foreach($column in $columns)
-                ${column.columnName}#if($foreach.hasNext),#end
+                ${column.columnName}
+                 #if($foreach.hasNext), #end
             #end
         )
         values
         (
             #foreach($column in $columns)
-                #{${column.attrname},jdbcType=${column.dataType}}#if($foreach.hasNext),#end
+                #{${column.attrname},
+                #if (${column.dataType} == 'int')
+                jdbcType=NUMERIC
+                #elseif (${column.dataType} == 'varchar')
+                jdbcType=VARCHAR
+                #elseif (${column.dataType} == 'datetime')
+                jdbcType=TIMESTAMP
+                #else
+                jdbcType=${column.dataType}
+                #end
+                }
+                #if($foreach.hasNext),#end
             #end
         )
     </insert>
@@ -37,7 +50,17 @@
             #foreach($column in $columns)
                 #if( ${column.columnName} != "id" )
                     <if test="${column.attrname} != null and ${column.attrname} != ''">
-                            ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}}#if($foreach.hasNext),#end
+                            ${column.columnName} = #{${column.attrname},jdbcType=
+                            #if (${column.dataType} == 'int')
+                            jdbcType=NUMERIC
+                            #elseif (${column.dataType} == 'varchar')
+                            jdbcType=VARCHAR
+                            #elseif (${column.dataType} == 'datetime')
+                            jdbcType=TIMESTAMP
+                            #else
+                            jdbcType=${column.dataType}
+                            #end
+                            }#if($foreach.hasNext),#end
                     </if>
                 #end
             #end
@@ -45,9 +68,11 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <delete id="remove">
-        delete from ${tableName} where id = #{id}
+    <delete id="batchRemove">
+        delete from ${tableName} where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
     </delete>
-
 
 </mapper>

@@ -30,7 +30,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R save(Long roleId, List<MenuTreeVo> roleMenu) {
-        roleMenuMapper.remove(roleId);// 删除
+        roleMenuMapper.batchRemove(new Long[]{roleId});// 删除
         Map<String,Object> params = new HashMap<>();
         RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
         boolean flag = false;
@@ -38,7 +38,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             String menuName = m.getTitle(); // 表示父级菜单
             params.put("menuName", menuName);
             params.remove("menuPid");
-            List<MenuEntity> entityList = menuMapper.getMenuForParams(params);
+            List<MenuEntity> entityList = menuMapper.listForPage(params);
             if (entityList.isEmpty())
                 return R.error("保存失败：cause 菜单不存在");
             Long menuId = entityList.get(0).getId();
@@ -56,7 +56,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
                 } else {
                     params.put("menuPid", entityList.get(0).getMenuPid());
                     params.remove("menuName");
-                    List<MenuEntity> menuForParams = menuMapper.getMenuForParams(params);
+                    List<MenuEntity> menuForParams = menuMapper.listForPage(params);
                     roleMenuEntity.setMenuId(menuForParams.get(0).getId());
                     roleMenuEntity.setRoleId(roleId);
                     roleMenuMapper.save(roleMenuEntity); // 保存父级

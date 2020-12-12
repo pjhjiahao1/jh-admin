@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jiahao.modules.system.mapper.SysDeptMapper">
+
+    <select id="listForPage" resultType="me.jiahao.modules.system.entity.SysDeptEntity">
+        select
+        id,
+        dept_name,
+        pid,
+        sort,
+        status,
+        create_time,
+        update_time,
+        create_by,
+        update_by
+        from sys_dept
+        <where>
+            <if test="id != null and id != ''">
+                and id like concat('%',#{id},'%')
+            </if>
+            <if test="deptName != null and deptName != ''">
+                and dept_name like concat('%',#{deptName},'%')
+            </if>
+            <if test="pid != null and pid != ''">
+                and pid like concat('%',#{pid},'%')
+            </if>
+            <if test="sort != null and sort != ''">
+                and sort like concat('%',#{sort},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and status like concat('%',#{status},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="save">
+        insert into sys_dept
+        (id,
+        dept_name,
+        pid,
+        sort,
+        status,
+        create_time,
+        update_time,
+        create_by,
+        update_by)
+        values
+        (#{id,jdbcType=NUMERIC},
+        #{deptName,jdbcType=VARCHAR},
+        #{pid,jdbcType=NUMERIC},
+        #{sort,jdbcType=NUMERIC},
+        #{status,jdbcType=NUMERIC},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{createBy,jdbcType=VARCHAR},
+        #{updateBy,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="update">
+        update sys_dept
+        <set>
+            <if test="deptName != null and deptName != ''">
+                dept_name = #{deptName,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null and pid != ''">
+                pid = #{pid,jdbcType=NUMERIC},
+            </if>
+            <if test="sort != null and sort != ''">
+                sort = #{sort,jdbcType=NUMERIC},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="batchRemove">
+        delete from sys_dept where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class TableEntity implements Serializable {
 
+    private static final long serialVersionUID = 3935175359901882849L;
     //表的名称
     private String tableName;
     //表的备注
