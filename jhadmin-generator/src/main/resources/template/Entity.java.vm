@@ -26,13 +26,12 @@ public class ${className}Entity extends BaseEntity implements Serializable {
 		/**
 		 * $column.comments
 		 */
-		private
-		#if($column.attrType == 'int')
-			Long
+		#if($column.attrname == 'id')
+			private Long $column.attrname;
 		#else
-			$column.attrType
+			private $column.attrType $column.attrname;
 		#end
-		$column.attrname;
+
 	#end
 #end
 

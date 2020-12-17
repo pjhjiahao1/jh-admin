@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,22 @@ public class SysDeptController {
     public R listForPage(@RequestParam Map<String,Object> params) {
         PageInfo<SysDeptEntity> pageInfo = sysDeptService.listForPage(params);
         return R.success(pageInfo);
+    }
+
+    @ApiOperation("查询")
+    @PreAuthorize("@el.check('sysdept:list')")
+    @GetMapping(value = "findAll")
+    public R findAll(@RequestParam Map<String,Object> params) {
+        List<SysDeptEntity> findAll = sysDeptService.findAll(params);
+        return R.success(findAll);
+    }
+
+    @ApiOperation("查询")
+    @PreAuthorize("@el.check('sysdept:list')")
+    @GetMapping(value = "getTreeData")
+    public R getTreeData(@RequestParam Map<String,Object> params) {
+        List<SysDeptEntity> findAll = sysDeptService.getTreeData(params);
+        return R.success(findAll);
     }
 
     /*

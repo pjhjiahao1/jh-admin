@@ -28,5 +28,8 @@ public class UserEntity extends BaseEntity implements Serializable {
     private Long orgId;
     private Long roleId;
     private String roleName;
+    private String orgName;
+    private Long jobId;
+    private String jobName;
 
 }

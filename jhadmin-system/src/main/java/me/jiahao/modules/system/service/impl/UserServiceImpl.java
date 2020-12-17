@@ -9,8 +9,10 @@ import me.jiahao.modules.system.entity.UserRoleEntity;
 import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.mapper.UserMapper;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
+import me.jiahao.modules.system.service.SysDeptService;
 import me.jiahao.modules.system.service.UserService;
 import me.jiahao.utils.Conversion;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
     private final Conversion conversion;
+    private final SysDeptService sysDeptService;
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
         return R.common(count);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R update(UserEntity userEntity) {
         int count = userMapper.update(userEntity);
@@ -68,6 +72,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageInfo<UserEntity> listForPage(Map<String,Object> params) {
         PageHelper.startPage(Integer.parseInt(params.get("currentPage").toString()), Integer.parseInt(params.get("pageSize").toString()));
+        String dept = params.get("dept").toString();
+        if (StringUtils.isNotBlank(dept)) {
+            List<Long> recursiveDept = sysDeptService.getRecursiveDept(Long.parseLong(dept));
+            params.put("array",recursiveDept);
+        }
         List<UserEntity> sysMenus = userMapper.listForPage(params);
         PageInfo<UserEntity> pageInfo = new PageInfo<>(sysMenus);
         return pageInfo;

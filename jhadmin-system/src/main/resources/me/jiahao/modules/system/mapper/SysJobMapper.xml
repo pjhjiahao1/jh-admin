@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jiahao.modules.system.mapper.SysJobMapper">
+
+    <select id="listForPage" resultType="me.jiahao.modules.system.entity.SysJobEntity">
+        select
+        id,
+        name,
+        status,
+        create_time,
+        update_time,
+        create_by,
+        update_by
+        from sys_job
+        <where>
+            <if test="id != null">
+                and id like concat('%',#{id},'%')
+            </if>
+            <if test="name != null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="status != null">
+                and status like concat('%',#{status},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime},'%')
+            </if>
+            <if test="createBy != null">
+                and create_by like concat('%',#{createBy},'%')
+            </if>
+            <if test="updateBy != null">
+                and update_by like concat('%',#{updateBy},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="save">
+        insert into sys_job
+        (id ,
+        name,
+        status,
+        create_time,
+        update_time,
+        create_by,
+        update_by)
+        values
+        (
+        #{id,jdbcType=NUMERIC},
+        #{name,jdbcType=VARCHAR},
+        #{status,jdbcType=NUMERIC},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{createBy,jdbcType=VARCHAR},
+        #{updateBy,jdbcType=VARCHAR}
+                )
+    </insert>
+    <update id="update">
+        update sys_job
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=NUMERIC},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="batchRemove">
+        delete from sys_job where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

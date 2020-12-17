@@ -47,11 +47,13 @@ public class RoleServiceImpl implements RoleService {
         return roleMapper.list();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public int save(RoleEntity roleEntity) {
         return roleMapper.save(roleEntity);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public int update(RoleEntity roleEntity) {
         return roleMapper.update(roleEntity);

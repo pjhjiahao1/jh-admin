@@ -20,6 +20,12 @@ public interface SysDeptService {
 
     PageInfo<SysDeptEntity> listForPage(Map<String,Object> params);
 
+    List<SysDeptEntity> findAll(Map<String,Object> params);
+
+    List<Long> getRecursiveDept(Long id);
+
+    List<SysDeptEntity> getTreeData(Map<String,Object> params);
+
     R save (SysDeptEntity sysDeptEntity);
 
     R update(SysDeptEntity sysDeptEntity);

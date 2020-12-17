@@ -45,6 +45,7 @@
     remove,
     exportExcel
   } from '@/${jsPathName}'
+  import { downloadFile } from "@/api/downUtils";
   import { Notice } from 'iview'
   export default {
     name: '${menuCode}',
@@ -243,7 +244,8 @@
         }
         this.modelflag = true;
         this.title = '编辑'
-        this.user = JSON.parse(JSON.stringify(params));
+        this.${classname} = JSON.parse(JSON.stringify(selectRecords[0]));
+        this.${classname}.status = this.${classname}.status + ''
       },
       remove (params) {
         // 获取选中数据
@@ -259,7 +261,7 @@
         selectRecords.forEach((value, key, arr) => {
           ids[key] = value.id;
         });
-
+        let _this = this
         this.$Modal
           .confirm({
             title : '删除确认？',
@@ -270,7 +272,7 @@
                   desc: res.data.msg
                 });
                 // 重新加载表格
-                this.$refs.xGrid.commitProxy("reload");
+                _this.$refs.xGrid.commitProxy("reload");
               })
             },
             closable: true
@@ -280,7 +282,7 @@
         const proxyInfo = this.$refs.xGrid.getProxyInfo()
         let queryData = proxyInfo.form
         exportExcel(queryData).then(res => {
-          downloadFile(res.data,$comments,'xlsx')
+          downloadFile(res.data,'$comments','xlsx')
         });
       }
     },

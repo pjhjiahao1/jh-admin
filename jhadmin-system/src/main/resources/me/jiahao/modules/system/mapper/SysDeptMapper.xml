@@ -13,17 +13,25 @@
         create_time,
         update_time,
         create_by,
-        update_by
+        update_by,
+        pid_name
         from sys_dept
         <where>
             <if test="id != null and id != ''">
-                and id like concat('%',#{id},'%')
+                and id = #{id}
             </if>
+            <if test="array != null">
+                and pid in
+                <foreach item="ids" collection="array" open="(" separator="," close=")">
+                    #{ids}
+                </foreach>
+            </if>
+
             <if test="deptName != null and deptName != ''">
                 and dept_name like concat('%',#{deptName},'%')
             </if>
             <if test="pid != null and pid != ''">
-                and pid like concat('%',#{pid},'%')
+                and pid = #{pid}
             </if>
             <if test="sort != null and sort != ''">
                 and sort like concat('%',#{sort},'%')
@@ -40,6 +48,7 @@
         pid,
         sort,
         status,
+        pid_name,
         create_time,
         update_time,
         create_by,
@@ -50,6 +59,7 @@
         #{pid,jdbcType=NUMERIC},
         #{sort,jdbcType=NUMERIC},
         #{status,jdbcType=NUMERIC},
+        #{pidName,jdbcType=VARCHAR},
         #{createTime,jdbcType=TIMESTAMP},
         #{updateTime,jdbcType=TIMESTAMP},
         #{createBy,jdbcType=VARCHAR},
@@ -62,6 +72,9 @@
             <if test="deptName != null and deptName != ''">
                 dept_name = #{deptName,jdbcType=VARCHAR},
             </if>
+            <if test="pidName != null and pidName != ''">
+                pid_name = #{pidName,jdbcType=VARCHAR},
+            </if>
             <if test="pid != null and pid != ''">
                 pid = #{pid,jdbcType=NUMERIC},
             </if>
@@ -71,18 +84,13 @@
             <if test="status != null and status != ''">
                 status = #{status,jdbcType=NUMERIC},
             </if>
-            <if test="createTime != null and createTime != ''">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null and updateTime != ''">
+            <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createBy != null and createBy != ''">
-                create_by = #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="updateBy != null and updateBy != ''">
+            <if test="updateBy != null">
                 update_by = #{updateBy,jdbcType=VARCHAR}
             </if>
+
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>

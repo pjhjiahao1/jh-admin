@@ -16,6 +16,9 @@
             a.update_time,
             a.create_by,
             a.update_by,
+            a.org_name,
+            a.job_id,
+            a.job_name,
 			c.role_name,
 			c.id as role_id
             from sys_user a
@@ -33,6 +36,12 @@
                 <if test="roleName != null">
                     and a.role_name like concat('%',#{roleName},'%')
                 </if>
+                <if test="array != null">
+                    and a.org_id in
+                    <foreach item="ids" collection="array" open="(" separator="," close=")">
+                        #{ids}
+                    </foreach>
+                </if>
             </where>
     </select>
 
@@ -49,13 +58,16 @@
             a.create_time,
             a.update_time,
             a.create_by,
-            a.update_by
+            a.update_by,
+            a.org_name,
+            a.job_id,
+            a.job_name,
             from sys_user a where a.username = #{username}
 
     </select>
 
     <insert id="save" parameterType="me.jiahao.modules.system.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_user(password,username,org_id,enabled,phone,email,nick_name,gender,create_time,create_by)
+        insert into sys_user(password,username,org_id,enabled,phone,email,nick_name,gender,create_time,create_by,org_name,job_id,job_name)
         values (
             #{password,jdbcType=VARCHAR},
             #{username,jdbcType=VARCHAR},
@@ -66,7 +78,10 @@
             #{nickName,jdbcType=VARCHAR},
             #{gender,jdbcType=VARCHAR},
             #{createTime,jdbcType=TIMESTAMP},
-            #{createBy,jdbcType=VARCHAR}
+            #{createBy,jdbcType=VARCHAR},
+            #{orgName,jdbcType=VARCHAR},
+            #{jobId,jdbcType=NUMERIC},
+            #{jobName,jdbcType=VARCHAR}
         )
 
     </insert>
@@ -100,6 +115,15 @@
             </if>
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orgName != null">
+                org_name = #{orgName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobId != null">
+                job_id = #{jobId,jdbcType=NUMERIC},
+            </if>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

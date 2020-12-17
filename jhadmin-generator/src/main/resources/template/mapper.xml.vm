@@ -5,26 +5,26 @@
 
     <select id="listForPage" resultType="${package}.${moduleName}.entity.${className}Entity">
         select
-            #foreach($column in $columns)
-                ${column.columnName}#if($foreach.hasNext),#end
+        #foreach($column in $columns)
+            ${column.columnName}#if($foreach.hasNext),#end
 
-            #end
+        #end
         from ${tableName}
         <where>
             #foreach($column in $columns)
-                <if test="${column.attrname} != null and ${column.attrname} != ''">
+                <if test="${column.attrname} != null">
                     and ${column.columnName} like concat('%',#{${column.attrname}},'%')
                 </if>
             #end
         </where>
     </select>
-    <insert id="save" >
+    <insert id="save">
         insert into ${tableName}
         (
             #foreach($column in $columns)
-                ${column.columnName}
-                 #if($foreach.hasNext), #end
-            #end
+        ${column.columnName}
+        #if($foreach.hasNext), #end
+    #end
         )
         values
         (
@@ -38,10 +38,10 @@
                 jdbcType=TIMESTAMP
                 #else
                 jdbcType=${column.dataType}
-                #end
+    #end
                 }
                 #if($foreach.hasNext),#end
-            #end
+    #end
         )
     </insert>
     <update id="update">
@@ -49,18 +49,17 @@
         <set>
             #foreach($column in $columns)
                 #if( ${column.columnName} != "id" )
-                    <if test="${column.attrname} != null and ${column.attrname} != ''">
-                            ${column.columnName} = #{${column.attrname},jdbcType=
-                            #if (${column.dataType} == 'int')
-                            jdbcType=NUMERIC
-                            #elseif (${column.dataType} == 'varchar')
-                            jdbcType=VARCHAR
-                            #elseif (${column.dataType} == 'datetime')
-                            jdbcType=TIMESTAMP
-                            #else
-                            jdbcType=${column.dataType}
-                            #end
-                            }#if($foreach.hasNext),#end
+                    <if test="${column.attrname} != null">
+                        #if (${column.dataType} == 'int')
+                            ${column.columnName} = #{${column.attrname},jdbcType=NUMERIC}
+                        #elseif (${column.dataType} == 'varchar')
+                            ${column.columnName} = #{${column.attrname}, jdbcType=VARCHAR}
+                        #elseif (${column.dataType} == 'datetime')
+                            ${column.columnName} = #{${column.attrname},jdbcType=TIMESTAMP}
+                        #else
+                            ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}}
+                        #end
+                        #if($foreach.hasNext),#end
                     </if>
                 #end
             #end

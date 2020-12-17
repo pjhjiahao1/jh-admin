@@ -21,6 +21,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -185,18 +188,21 @@ public class MenuServiceImpl implements MenuService {
         return menuMapper.listForPage(params);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R save(MenuEntity menuEntity) {
         int count = menuMapper.save(menuEntity);
         return R.common(count);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R update(MenuEntity menuEntity) {
         int count = menuMapper.update(menuEntity);
         return R.common(count);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R remove(Long id) {
         Map<String,Object> params = new HashMap<>();

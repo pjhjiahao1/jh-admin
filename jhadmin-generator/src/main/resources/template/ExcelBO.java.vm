@@ -15,13 +15,11 @@ public class ${className}BO implements Serializable {
 		#if($column.attrname != 'createTime' && $column.attrname != 'updateTime' &&
 			$column.attrname != 'createBy' && $column.attrname != 'updateBy')
 			@ExcelProperty("$column.comments")
-			private
-			#if($column.attrType == 'int')
-				Long
+			#if($column.attrname == 'id')
+				private Long $column.attrname;
 			#else
-				$column.attrType
+				private $column.attrType $column.attrname;
 			#end
-			$column.attrname;
 		#end
 	#end
 
