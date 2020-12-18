@@ -21,27 +21,24 @@
     <insert id="save">
         insert into ${tableName}
         (
-            #foreach($column in $columns)
-        ${column.columnName}
-        #if($foreach.hasNext), #end
-    #end
+           #foreach($column in $columns)
+                ${column.columnName}#if($foreach.hasNext),#end
+           #end
         )
         values
         (
             #foreach($column in $columns)
-                #{${column.attrname},
+
                 #if (${column.dataType} == 'int')
-                jdbcType=NUMERIC
+                 #{${column.attrname},jdbcType=NUMERIC}#if($foreach.hasNext),#end
                 #elseif (${column.dataType} == 'varchar')
-                jdbcType=VARCHAR
+                 #{${column.attrname},jdbcType=VARCHAR}#if($foreach.hasNext),#end
                 #elseif (${column.dataType} == 'datetime')
-                jdbcType=TIMESTAMP
+                 #{${column.attrname},jdbcType=TIMESTAMP}#if($foreach.hasNext),#end
                 #else
-                jdbcType=${column.dataType}
-    #end
-                }
-                #if($foreach.hasNext),#end
-    #end
+                 #{${column.attrname},jdbcType=${column.dataType}}#if($foreach.hasNext),#end
+                #end
+            #end
         )
     </insert>
     <update id="update">
@@ -51,15 +48,15 @@
                 #if( ${column.columnName} != "id" )
                     <if test="${column.attrname} != null">
                         #if (${column.dataType} == 'int')
-                            ${column.columnName} = #{${column.attrname},jdbcType=NUMERIC}
+                            ${column.columnName} = #{${column.attrname},jdbcType=NUMERIC}#if($foreach.hasNext),#end
                         #elseif (${column.dataType} == 'varchar')
-                            ${column.columnName} = #{${column.attrname}, jdbcType=VARCHAR}
+                            ${column.columnName} = #{${column.attrname}, jdbcType=VARCHAR#if($foreach.hasNext),#end
                         #elseif (${column.dataType} == 'datetime')
-                            ${column.columnName} = #{${column.attrname},jdbcType=TIMESTAMP}
+                            ${column.columnName} = #{${column.attrname},jdbcType=TIMESTAMP}#if($foreach.hasNext),#end
                         #else
-                            ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}}
+                            ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}}#if($foreach.hasNext),#end
                         #end
-                        #if($foreach.hasNext),#end
+
                     </if>
                 #end
             #end

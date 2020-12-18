@@ -2,23 +2,19 @@ package me.jiahao.generator.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import me.jiahao.annotation.AnonymousAccess;
 import me.jiahao.generator.service.GeneratorTableService;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.utils.PageRequest;
 import org.apache.commons.io.IOUtils;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author : panjiahao

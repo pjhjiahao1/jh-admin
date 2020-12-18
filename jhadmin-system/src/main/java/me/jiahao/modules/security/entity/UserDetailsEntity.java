@@ -18,6 +18,7 @@ public class UserDetailsEntity implements UserDetails , Serializable {
     String password; //密码
     String username;  //用户名
     String nickName; // 昵称
+    String orgName; // 部门名称
     boolean accountNonExpired;   //是否没过期
     boolean accountNonLocked;   //是否没被锁定
     boolean credentialsNonExpired;  //是否没过期

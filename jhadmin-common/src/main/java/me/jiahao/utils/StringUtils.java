@@ -147,7 +147,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils{
             try {
                 ip = InetAddress.getLocalHost().getHostAddress();
             } catch (UnknownHostException e) {
-                log.error(e.getMessage(), e);
+                System.out.println(e.getMessage());
             }
         }
         return ip;

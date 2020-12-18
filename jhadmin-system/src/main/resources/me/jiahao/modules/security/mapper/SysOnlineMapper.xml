@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jiahao.modules.security.mapper.SysOnlineMapper">
+
+    <select id="listForPage" resultType="me.jiahao.modules.security.entity.SysOnlineEntity">
+        select
+        id,
+        user_name,
+        nick_name,
+        dept,
+        browser,
+        ip,
+        address,
+        `key`,
+        login_time
+        from sys_online
+        <where>
+            <if test="id != null">
+                and id like concat('%',#{id},'%')
+            </if>
+            <if test="userName != null">
+                and user_name like concat('%',#{userName},'%')
+            </if>
+            <if test="nickName != null">
+                and nick_name like concat('%',#{nickName},'%')
+            </if>
+            <if test="dept != null">
+                and dept like concat('%',#{dept},'%')
+            </if>
+            <if test="browser != null">
+                and browser like concat('%',#{browser},'%')
+            </if>
+            <if test="ip != null">
+                and ip like concat('%',#{ip},'%')
+            </if>
+            <if test="address != null">
+                and address like concat('%',#{address},'%')
+            </if>
+            <if test="key != null">
+                and `key` like concat('%',#{key},'%')
+            </if>
+            <if test="loginTime != null">
+                and login_time like concat('%',#{loginTime},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="save">
+        insert into sys_online
+        (
+                    id,user_name,nick_name,dept,browser,ip,address, `key` ,login_time
+                    )
+        values
+        (
+                            #{id,jdbcType=NUMERIC},
+                            #{userName,jdbcType=VARCHAR},
+                            #{nickName,jdbcType=VARCHAR},
+                            #{dept,jdbcType=VARCHAR},
+                            #{browser,jdbcType=VARCHAR},
+                            #{ip,jdbcType=VARCHAR},
+                            #{address,jdbcType=VARCHAR},
+                            #{key,jdbcType=VARCHAR},
+                            #{loginTime,jdbcType=TIMESTAMP}
+                            )
+    </insert>
+    <update id="update">
+        update sys_online
+        <set>
+            <if test="userName != null">
+                user_name = #{userName, jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName, jdbcType=VARCHAR},
+            </if>
+            <if test="dept != null">
+                dept = #{dept, jdbcType=VARCHAR},
+            </if>
+            <if test="browser != null">
+                browser = #{browser, jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip, jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address, jdbcType=VARCHAR},
+            </if>
+            <if test="key != null">
+                `key` = #{key,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="batchRemove">
+        delete from sys_online where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,14 +1,9 @@
 package me.jiahao.modules.system.service;
 
 import com.github.pagehelper.PageInfo;
-import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
-import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.modules.system.entity.bo.RoleExcelBO;
-import me.jiahao.utils.PageRequest;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.management.relation.Role;
 import java.util.List;
 import java.util.Map;
 

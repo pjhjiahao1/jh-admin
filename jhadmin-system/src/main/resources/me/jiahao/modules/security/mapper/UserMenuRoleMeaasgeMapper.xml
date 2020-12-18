@@ -3,7 +3,7 @@
 <mapper namespace="me.jiahao.modules.security.mapper.UserMenuRoleMeaasgeMapper">
     <!--获取用户  -->
     <select id="getUserDetail" resultType="me.jiahao.modules.security.entity.UserDetailsEntity">
-		select username,password,enabled,nick_name,id from sys_user where username = #{username}
+		select username,password,enabled,nick_name,id,org_name from sys_user where username = #{username}
     </select>
 
     <select id="getRoleCode" resultType="String">
