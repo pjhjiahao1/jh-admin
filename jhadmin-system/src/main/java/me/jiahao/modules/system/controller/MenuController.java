@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
+import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.service.MenuService;
 import me.jiahao.utils.SecurityUtils;
@@ -113,6 +114,7 @@ public class MenuController {
         return R.success(menuForParams);
     }
 
+    @SysOperaLog(descrption = "保存菜单")
     @ApiOperation("保存")
     @PreAuthorize("@el.check('menu:list')")
     @PostMapping
@@ -138,7 +140,7 @@ public class MenuController {
     }
 
 
-
+    @SysOperaLog(descrption = "更新菜单")
     @ApiOperation("更新")
     @PreAuthorize("@el.check('menu:list')")
     @PutMapping
@@ -146,6 +148,7 @@ public class MenuController {
         return menuService.update(menuEntity);
     }
 
+    @SysOperaLog(descrption = "删除菜单")
     @ApiOperation("删除")
     @PreAuthorize("@el.check('menu:list')")
     @DeleteMapping

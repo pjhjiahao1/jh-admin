@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jiahao.logging.mapper.SysLogMapper">
+
+    <select id="listForPage" resultType="me.jiahao.logging.entity.SysLogEntity">
+        select
+                    id,
+                    ip,
+                    location,
+                    type,
+                    user_name,
+                    description,
+                    action_method,
+                    action_url,
+                    params,
+                    os,
+                    browser,
+                    class_path,
+                    request_method,
+                    start_time,
+                    finish_time,
+                    consuming_time,
+                    ex_detail,
+                    ex_desc
+                from sys_log
+        <where>
+                            <if test="id != null">
+                    and id like concat('%',#{id},'%')
+                </if>
+                            <if test="ip != null">
+                    and ip like concat('%',#{ip},'%')
+                </if>
+                            <if test="location != null">
+                    and location like concat('%',#{location},'%')
+                </if>
+                            <if test="type != null">
+                    and type like concat('%',#{type},'%')
+                </if>
+                            <if test="userName != null">
+                    and user_name like concat('%',#{userName},'%')
+                </if>
+                            <if test="description != null">
+                    and description like concat('%',#{description},'%')
+                </if>
+                            <if test="actionMethod != null">
+                    and action_method like concat('%',#{actionMethod},'%')
+                </if>
+                            <if test="actionUrl != null">
+                    and action_url like concat('%',#{actionUrl},'%')
+                </if>
+                            <if test="params != null">
+                    and params like concat('%',#{params},'%')
+                </if>
+                            <if test="os != null">
+                    and os like concat('%',#{os},'%')
+                </if>
+                            <if test="browser != null">
+                    and browser like concat('%',#{browser},'%')
+                </if>
+                            <if test="classPath != null">
+                    and class_path like concat('%',#{classPath},'%')
+                </if>
+                            <if test="requestMethod != null">
+                    and request_method like concat('%',#{requestMethod},'%')
+                </if>
+                            <if test="startTime != null">
+                    and start_time like concat('%',#{startTime},'%')
+                </if>
+                            <if test="finishTime != null">
+                    and finish_time like concat('%',#{finishTime},'%')
+                </if>
+                            <if test="consumingTime != null">
+                    and consuming_time like concat('%',#{consumingTime},'%')
+                </if>
+                            <if test="exDetail != null">
+                    and ex_detail like concat('%',#{exDetail},'%')
+                </if>
+                            <if test="exDesc != null">
+                    and ex_desc like concat('%',#{exDesc},'%')
+                </if>
+                    </where>
+    </select>
+    <insert id="save">
+        insert into sys_log
+        (
+                           id,                           ip,                           location,                           type,                           user_name,                           description,                           action_method,                           action_url,                           params,                           os,                           browser,                           class_path,                           request_method,                           start_time,                           finish_time,                           consuming_time,                           ex_detail,                           ex_desc                   )
+        values
+        (
+            
+                                 #{id,jdbcType=NUMERIC},                            
+                                 #{ip,jdbcType=VARCHAR},                            
+                                 #{location,jdbcType=VARCHAR},                            
+                                 #{type,jdbcType=NUMERIC},                            
+                                 #{userName,jdbcType=VARCHAR},                            
+                                 #{description,jdbcType=VARCHAR},                            
+                                 #{actionMethod,jdbcType=VARCHAR},                            
+                                 #{actionUrl,jdbcType=VARCHAR},                            
+                                 #{params,jdbcType=VARCHAR},                            
+                                 #{os,jdbcType=VARCHAR},                            
+                                 #{browser,jdbcType=VARCHAR},                            
+                                 #{classPath,jdbcType=VARCHAR},                            
+                                 #{requestMethod,jdbcType=VARCHAR},                            
+                                 #{startTime,jdbcType=TIMESTAMP},                            
+                                 #{finishTime,jdbcType=TIMESTAMP},                            
+                                 #{consumingTime,jdbcType=NUMERIC},
+                                 #{exDetail,jdbcType=VARCHAR},                            
+                                 #{exDesc,jdbcType=VARCHAR}                                    )
+    </insert>
+    <update id="update">
+        update sys_log
+        <set>
+                                                                            <if test="ip != null">
+                                                    ip = #{ip, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="location != null">
+                                                    location = #{location, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="type != null">
+                                                    type = #{type,jdbcType=NUMERIC},                        
+                    </if>
+                                                                <if test="userName != null">
+                                                    user_name = #{userName, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="description != null">
+                                                    description = #{description, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="actionMethod != null">
+                                                    action_method = #{actionMethod, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="actionUrl != null">
+                                                    action_url = #{actionUrl, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="params != null">
+                                                    params = #{params, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="os != null">
+                                                    os = #{os, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="browser != null">
+                                                    browser = #{browser, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="classPath != null">
+                                                    class_path = #{classPath, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="requestMethod != null">
+                                                    request_method = #{requestMethod, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="startTime != null">
+                                                    start_time = #{startTime,jdbcType=TIMESTAMP},                        
+                    </if>
+                                                                <if test="finishTime != null">
+                                                    finish_time = #{finishTime,jdbcType=TIMESTAMP},                        
+                    </if>
+                                                                <if test="consumingTime != null">
+                                                    consuming_time = #{consumingTime,jdbcType=NUMERIC},
+                    </if>
+                                                                <if test="exDetail != null">
+                                                    ex_detail = #{exDetail, jdbcType=VARCHAR,                        
+                    </if>
+                                                                <if test="exDesc != null">
+                                                    ex_desc = #{exDesc, jdbcType=VARCHAR                        
+                    </if>
+                                    </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="batchRemove">
+        delete from sys_log where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

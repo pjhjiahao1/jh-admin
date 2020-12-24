@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
+import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.entity.bo.RoleExcelBO;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
@@ -37,6 +38,7 @@ public class RoleController {
         return R.success(allRole);
     }
 
+    @SysOperaLog(descrption = "查询角色")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('role:list')")
     @GetMapping
@@ -44,6 +46,7 @@ public class RoleController {
         return R.success(roleService.listForPage(params));
     }
 
+    @SysOperaLog(descrption = "保存角色")
     @ApiOperation("保存")
     @PreAuthorize("@el.check('role:list')")
     @PostMapping
@@ -52,6 +55,7 @@ public class RoleController {
         return R.common(count);
     }
 
+    @SysOperaLog(descrption = "更新角色")
     @ApiOperation("更新")
     @PreAuthorize("@el.check('role:list')")
     @PutMapping
@@ -60,6 +64,7 @@ public class RoleController {
         return R.common(count);
     }
 
+    @SysOperaLog(descrption = "删除角色")
     @ApiOperation("删除")
     @PreAuthorize("@el.check('role:list')")
     @DeleteMapping
@@ -68,6 +73,7 @@ public class RoleController {
         return R.common(count);
     }
 
+    @SysOperaLog(descrption = "导出角色")
     @ApiOperation("导出")
     @PreAuthorize("@el.check('role:list')")
     @PostMapping(value = "export")

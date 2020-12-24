@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
+import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.service.UserService;
@@ -30,6 +31,7 @@ public class UserController {
     private final UserService userService;
 
 
+    @SysOperaLog(descrption = "查询用户")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('user:list')")
     @GetMapping
@@ -46,6 +48,7 @@ public class UserController {
     * @Author: panjiahao
     * @Date: 2020/10/2
     */
+    @SysOperaLog(descrption = "保存用户")
     @ApiOperation("保存")
     @PreAuthorize("@el.check('user:list')")
     @PostMapping
@@ -61,6 +64,7 @@ public class UserController {
      * @Author: panjiahao
      * @Date: 2020/10/2
      */
+    @SysOperaLog(descrption = "更新用户")
     @ApiOperation("更新")
     @PreAuthorize("@el.check('user:list')")
     @PutMapping
@@ -79,6 +83,7 @@ public class UserController {
      * @Author: panjiahao
      * @Date: 2020/10/2
      */
+    @SysOperaLog(descrption = "删除用户")
     @ApiOperation("删除")
     @PreAuthorize("@el.check('user:list')")
     @DeleteMapping
@@ -99,6 +104,7 @@ public class UserController {
     * @Author: panjiahao
     * @Date: 2020/12/7
     */
+    @SysOperaLog(descrption = "导出用户")
     @ApiOperation("导出")
     @PreAuthorize("@el.check('user:list')")
     @PostMapping(value = "export")

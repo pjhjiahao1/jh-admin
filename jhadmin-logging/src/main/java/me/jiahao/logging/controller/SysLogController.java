@@ -1,14 +1,13 @@
-package me.jiahao.modules.system.controller;
+package me.jiahao.logging.controller;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
-import me.jiahao.logging.annotation.SysOperaLog;
-import me.jiahao.modules.system.entity.SysJobEntity;
-import me.jiahao.modules.system.service.SysJobService;
-import me.jiahao.modules.system.entity.bo.SysJobBO;
+import me.jiahao.logging.entity.SysLogEntity;
+import me.jiahao.logging.service.SysLogService;
+import me.jiahao.logging.entity.bo.SysLogBO;
 
 import me.jiahao.utils.EasyExcelUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,19 +20,19 @@ import java.util.Map;
 
 
 /**
- * 岗位表
+ * 操作日志表
  *
  * @author jiahao.pan
  * @email 1342939721@qq.com
- * @date 2020-12-16 17:01:04
+ * @date 2020-12-23 16:29:28
  */
-@Api(tags = "岗位表")
+@Api(tags = "操作日志表")
 @RestController
-@RequestMapping("api/sysjob")
+@RequestMapping("api/syslog")
 @RequiredArgsConstructor
-public class SysJobController {
+public class SysLogController {
 
-    private final SysJobService sysJobService;
+    private final SysLogService sysLogService;
 
     /*
      **
@@ -41,47 +40,44 @@ public class SysJobController {
      * @Param: [pageQuery]
      * @return: me.jiahao.exception.R
      * @Author: jiahao.pan
-     * @Date: 2020-12-16 17:01:04
+     * @Date: 2020-12-23 16:29:28
      */
-    @SysOperaLog(descrption = "查询岗位")
     @ApiOperation("分页查询")
-    @PreAuthorize("@el.check('sysjob:list')")
+    @PreAuthorize("@el.check('syslog:list')")
     @GetMapping
     public R listForPage(@RequestParam Map<String,Object> params) {
-        PageInfo<SysJobEntity> pageInfo = sysJobService.listForPage(params);
+        PageInfo<SysLogEntity> pageInfo = sysLogService.listForPage(params);
         return R.success(pageInfo);
     }
 
     /*
      **
      * @Description: 保存
-     * @Param: [sysJobEntity]
+     * @Param: [sysLogEntity]
      * @return: me.jiahao.exception.R
      * @Author: jiahao.pan
-     * @Date: 2020-12-16 17:01:04
+     * @Date: 2020-12-23 16:29:28
      */
-    @SysOperaLog(descrption = "保存岗位")
     @ApiOperation("保存")
-    @PreAuthorize("@el.check('sysjob:list')")
+    @PreAuthorize("@el.check('syslog:list')")
     @PostMapping
-    public R save(SysJobEntity sysJobEntity) {
-        return sysJobService.save(sysJobEntity);
+    public R save(SysLogEntity sysLogEntity) {
+        return sysLogService.save(sysLogEntity);
     }
 
     /*
      **
      * @Description: 更新
-     * @Param: [sysJobEntity]
+     * @Param: [sysLogEntity]
      * @return: me.jiahao.exception.R
      * @Author: jiahao.pan
-     * @Date: 2020-12-16 17:01:04
+     * @Date: 2020-12-23 16:29:28
      */
-    @SysOperaLog(descrption = "更新岗位")
     @ApiOperation("更新")
-    @PreAuthorize("@el.check('sysjob:list')")
+    @PreAuthorize("@el.check('syslog:list')")
     @PutMapping
-    public R update(SysJobEntity sysJobEntity) {
-        return sysJobService.update(sysJobEntity);
+    public R update(SysLogEntity sysLogEntity) {
+        return sysLogService.update(sysLogEntity);
     }
 
     /*
@@ -90,14 +86,13 @@ public class SysJobController {
      * @Param: [id]
      * @return: me.jiahao.exception.R
      * @Author: jiahao.pan
-     * @Date: 2020-12-16 17:01:04
+     * @Date: 2020-12-23 16:29:28
      */
-    @SysOperaLog(descrption = "删除岗位")
     @ApiOperation("删除")
-    @PreAuthorize("@el.check('sysjob:list')")
+    @PreAuthorize("@el.check('syslog:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
-        return sysJobService.remove(ids);
+        return sysLogService.remove(ids);
     }
 
     /*
@@ -108,21 +103,13 @@ public class SysJobController {
      * @Author: panjiahao
      * @Date: 2020/12/7
      */
-    @SysOperaLog(descrption = "导出岗位")
     @ApiOperation("导出")
-    @PreAuthorize("@el.check('sysjob:list')")
+    @PreAuthorize("@el.check('syslog:list')")
     @PostMapping(value = "export")
     public void exportExcel(@RequestBody Map<String,Object> params,HttpServletResponse response) throws IOException{
-        List<SysJobBO> list = sysJobService.findSysJob(params);
+        List<SysLogBO> list = sysLogService.findSysLog(params);
         // 导出
-        EasyExcelUtil.exportExcel(response,SysJobBO.class,list);
-    }
-
-    @ApiOperation("查询全部")
-    @PreAuthorize("@el.check('sysjob:list')")
-    @GetMapping(value = "findAll")
-    public R findAll() {
-        return R.success(sysJobService.findAll());
+        EasyExcelUtil.exportExcel(response,SysLogBO.class,list);
     }
 
 }

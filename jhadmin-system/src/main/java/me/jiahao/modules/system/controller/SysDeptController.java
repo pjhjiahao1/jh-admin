@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
+import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.system.entity.SysDeptEntity;
 import me.jiahao.modules.system.entity.bo.SysDeptBO;
 import me.jiahao.modules.system.service.SysDeptService;
@@ -42,6 +43,7 @@ public class SysDeptController {
      * @Author: jiahao.pan
      * @Date: 2020-12-11 14:05:45
      */
+    @SysOperaLog(descrption = "查询部门")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('sysdept:list')")
     @GetMapping
@@ -74,6 +76,7 @@ public class SysDeptController {
      * @Author: jiahao.pan
      * @Date: 2020-12-11 14:05:45
      */
+    @SysOperaLog(descrption = "保存部门")
     @ApiOperation("保存")
     @PreAuthorize("@el.check('sysdept:list')")
     @PostMapping
@@ -89,6 +92,7 @@ public class SysDeptController {
      * @Author: jiahao.pan
      * @Date: 2020-12-11 14:05:45
      */
+    @SysOperaLog(descrption = "更新部门")
     @ApiOperation("更新")
     @PreAuthorize("@el.check('sysdept:list')")
     @PutMapping
@@ -104,6 +108,7 @@ public class SysDeptController {
      * @Author: jiahao.pan
      * @Date: 2020-12-11 14:05:45
      */
+    @SysOperaLog(descrption = "删除部门")
     @ApiOperation("删除")
     @PreAuthorize("@el.check('sysdept:list')")
     @DeleteMapping
@@ -119,6 +124,7 @@ public class SysDeptController {
      * @Author: panjiahao
      * @Date: 2020/12/7
      */
+    @SysOperaLog(descrption = "导出部门")
     @ApiOperation("导出")
     @PreAuthorize("@el.check('sysdept:list')")
     @PostMapping(value = "export")
