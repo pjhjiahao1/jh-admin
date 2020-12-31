@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jiahao.modules.quartz.mapper.SysQuartzJobMapper">
+
+    <select id="listForPage" resultType="me.jiahao.modules.quartz.entity.SysQuartzJobEntity">
+        select
+        id,
+        uid,
+        bean_name,
+        cron_expression,
+        is_pause,
+        job_name,
+        method_name,
+        params,
+        description,
+        person_in_charge,
+        email,
+        sub_task,
+        pause_after_failure,
+        create_by,
+        update_by,
+        create_time,
+        update_time
+        from sys_quartz_job
+        <where>
+            <if test="beanName != null">
+                and bean_name like concat('%',#{beanName},'%')
+            </if>
+            <if test="cronExpression != null">
+                and cron_expression like concat('%',#{cronExpression},'%')
+            </if>
+            <if test="isPause != null">
+                and is_pause like concat('%',#{isPause},'%')
+            </if>
+            <if test="jobName != null">
+                and job_name like concat('%',#{jobName},'%')
+            </if>
+            <if test="methodName != null">
+                and method_name like concat('%',#{methodName},'%')
+            </if>
+            <if test="params != null">
+                and params like concat('%',#{params},'%')
+            </if>
+            <if test="description != null">
+                and description like concat('%',#{description},'%')
+            </if>
+            <if test="personInCharge != null">
+                and person_in_charge like concat('%',#{personInCharge},'%')
+            </if>
+            <if test="email != null">
+                and email like concat('%',#{email},'%')
+            </if>
+            <if test="subTask != null">
+                and sub_task like concat('%',#{subTask},'%')
+            </if>
+            <if test="pauseAfterFailure != null">
+                and pause_after_failure like concat('%',#{pauseAfterFailure},'%')
+            </if>
+            <if test="createBy != null">
+                and create_by like concat('%',#{createBy},'%')
+            </if>
+            <if test="updateBy != null">
+                and update_by like concat('%',#{updateBy},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null">
+                and update_time like concat('%',#{updateTime},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="save">
+        insert into sys_quartz_job
+        (
+         bean_name,
+         cron_expression,
+         is_pause,
+         job_name,
+         method_name,
+         params,
+         description,
+         person_in_charge,
+         email,
+         sub_task,
+         pause_after_failure,
+         create_by,
+         update_by,
+         create_time,
+         update_time ,
+         uid                  )
+        values
+        (
+            
+
+                                 #{beanName,jdbcType=VARCHAR},                            
+                                 #{cronExpression,jdbcType=VARCHAR},                            
+                                 #{isPause,jdbcType=NUMERIC},
+                                 #{jobName,jdbcType=VARCHAR},                            
+                                 #{methodName,jdbcType=VARCHAR},                            
+                                 #{params,jdbcType=VARCHAR},                            
+                                 #{description,jdbcType=VARCHAR},                            
+                                 #{personInCharge,jdbcType=VARCHAR},                            
+                                 #{email,jdbcType=VARCHAR},                            
+                                 #{subTask,jdbcType=VARCHAR},                            
+                                 #{pauseAfterFailure,jdbcType=NUMERIC},
+                                 #{createBy,jdbcType=VARCHAR},                            
+                                 #{updateBy,jdbcType=VARCHAR},                            
+                                 #{createTime,jdbcType=TIMESTAMP},                            
+                                 #{updateTime,jdbcType=TIMESTAMP},
+                                #{uid,jdbcType=VARCHAR}
+                                )
+    </insert>
+    <update id="update">
+        update sys_quartz_job
+        <set>
+            <if test="beanName != null">
+                bean_name = #{beanName, jdbcType=VARCHAR,
+            </if>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression, jdbcType=VARCHAR,
+            </if>
+            <if test="isPause != null">
+                is_pause = #{isPause,jdbcType=NUMERIC},
+            </if>
+            <if test="jobName != null">
+                job_name = #{jobName, jdbcType=VARCHAR,
+            </if>
+            <if test="methodName != null">
+                method_name = #{methodName, jdbcType=VARCHAR,
+            </if>
+            <if test="params != null">
+                params = #{params, jdbcType=VARCHAR,
+            </if>
+            <if test="description != null">
+                description = #{description, jdbcType=VARCHAR,
+            </if>
+            <if test="personInCharge != null">
+                person_in_charge = #{personInCharge, jdbcType=VARCHAR,
+            </if>
+            <if test="email != null">
+                email = #{email, jdbcType=VARCHAR,
+            </if>
+            <if test="subTask != null">
+                sub_task = #{subTask, jdbcType=VARCHAR,
+            </if>
+            <if test="pauseAfterFailure != null">
+                pause_after_failure = #{pauseAfterFailure,jdbcType=NUMERIC},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy, jdbcType=VARCHAR,
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy, jdbcType=VARCHAR,
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="uid != null">
+                uid = #{uid,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="batchRemove">
+        delete from sys_quartz_job where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jiahao.modules.quartz.mapper.SysQuartzLogMapper">
+
+    <select id="listForPage" resultType="me.jiahao.modules.quartz.entity.SysQuartzLogEntity">
+        select
+        id,
+        bean_name,
+        create_time,
+        cron_expression,
+        exception_detail,
+        is_success,
+        job_name,
+        method_name,
+        params,
+        time,
+        pid
+        from sys_quartz_log
+        <where>
+            <if test="beanName != null">
+                and bean_name like concat('%',#{beanName},'%')
+            </if>
+            <if test="createTime != null">
+                and create_time like concat('%',#{createTime},'%')
+            </if>
+            <if test="cronExpression != null">
+                and cron_expression like concat('%',#{cronExpression},'%')
+            </if>
+            <if test="exceptionDetail != null">
+                and exception_detail like concat('%',#{exceptionDetail},'%')
+            </if>
+            <if test="isSuccess != null">
+                and is_success like concat('%',#{isSuccess},'%')
+            </if>
+            <if test="jobName != null">
+                and job_name like concat('%',#{jobName},'%')
+            </if>
+            <if test="methodName != null">
+                and method_name like concat('%',#{methodName},'%')
+            </if>
+            <if test="params != null">
+                and params like concat('%',#{params},'%')
+            </if>
+            <if test="time != null">
+                and time like concat('%',#{time},'%')
+            </if>
+            <if test="pid != null">
+                and pid like concat('%',#{pid},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="save">
+        insert into sys_quartz_log
+        (
+        bean_name,
+        create_time,
+        cron_expression,
+        exception_detail,
+        is_success,
+        job_name,
+        method_name,
+        params,
+        time,
+        pid
+        )
+        values
+        (
+                                 #{beanName,jdbcType=VARCHAR},
+                                 #{createTime,jdbcType=TIMESTAMP},
+                                 #{cronExpression,jdbcType=VARCHAR},
+                                 #{exceptionDetail,jdbcType=VARCHAR},
+                                 #{isSuccess,jdbcType=NUMERIC},
+                                 #{jobName,jdbcType=VARCHAR},
+                                 #{methodName,jdbcType=VARCHAR},
+                                 #{params,jdbcType=VARCHAR},
+                                 #{time,jdbcType=NUMERIC},
+                                 #{pid,jdbcType=VARCHAR} )
+    </insert>
+    <update id="update">
+        update sys_quartz_log
+        <set>
+            <if test="beanName != null">
+                bean_name = #{beanName, jdbcType=VARCHAR,
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression, jdbcType=VARCHAR,
+            </if>
+            <if test="exceptionDetail != null">
+                exception_detail = #{exceptionDetail,jdbcType=text},
+            </if>
+            <if test="isSuccess != null">
+                is_success = #{isSuccess,jdbcType=NUMERIC},
+            </if>
+            <if test="jobName != null">
+                job_name = #{jobName, jdbcType=VARCHAR,
+            </if>
+            <if test="methodName != null">
+                method_name = #{methodName, jdbcType=VARCHAR,
+            </if>
+            <if test="params != null">
+                params = #{params, jdbcType=VARCHAR,
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=NUMERIC},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="batchRemove">
+        delete from sys_quartz_log where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+</mapper>

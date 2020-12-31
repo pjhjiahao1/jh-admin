@@ -1,13 +1,14 @@
-package ${package}.${moduleName}.controller;
+package me.jiahao.modules.quartz.controller;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.service.${className}Service;
-import ${package}.${moduleName}.entity.bo.${className}BO;
+import me.jiahao.logging.annotation.SysOperaLog;
+import me.jiahao.modules.quartz.entity.SysQuartzJobEntity;
+import me.jiahao.modules.quartz.service.SysQuartzJobService;
+import me.jiahao.modules.quartz.entity.bo.SysQuartzJobBO;
 
 import me.jiahao.utils.EasyExcelUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,67 +21,67 @@ import java.util.Map;
 
 
 /**
- * ${comments}
+ * 定时任务
  *
- * @author ${author}
- * @email ${email}
- * @date ${datetime}
+ * @author jiahao.pan
+ * @email 1342939721@qq.com
+ * @date 2020-12-25 15:26:16
  */
-@Api(tags = "${comments}")
+@Api(tags = "定时任务")
 @RestController
-@RequestMapping("api/${pathName}")
+@RequestMapping("api/jobs")
 @RequiredArgsConstructor
-public class ${className}Controller {
+public class SysQuartzJobController {
 
-    private final ${className}Service ${classname}Service;
+    private final SysQuartzJobService sysQuartzJobService;
 
     /*
      **
      * @Description: 分页查询
      * @Param: [pageQuery]
      * @return: me.jiahao.exception.R
-     * @Author: ${author}
-     * @Date: ${datetime}
+     * @Author: jiahao.pan
+     * @Date: 2020-12-25 15:26:16
      */
     @SysOperaLog(descrption = "查询")
     @ApiOperation("分页查询")
-    @PreAuthorize("@el.check('${pathName}:list')")
+    @PreAuthorize("@el.check('sysquartzjob:list')")
     @GetMapping
     public R listForPage(@RequestParam Map<String,Object> params) {
-        PageInfo<${className}Entity> pageInfo = ${classname}Service.listForPage(params);
+        PageInfo<SysQuartzJobEntity> pageInfo = sysQuartzJobService.listForPage(params);
         return R.success(pageInfo);
     }
 
     /*
      **
      * @Description: 保存
-     * @Param: [${classname}Entity]
+     * @Param: [sysQuartzJobEntity]
      * @return: me.jiahao.exception.R
-     * @Author: ${author}
-     * @Date: ${datetime}
+     * @Author: jiahao.pan
+     * @Date: 2020-12-25 15:26:16
      */
     @SysOperaLog(descrption = "保存")
     @ApiOperation("保存")
-    @PreAuthorize("@el.check('${pathName}:list')")
+    @PreAuthorize("@el.check('sysquartzjob:list')")
     @PostMapping
-    public R save(${className}Entity ${classname}Entity) {
-        return ${classname}Service.save(${classname}Entity);
+    public R save(SysQuartzJobEntity sysQuartzJobEntity) {
+        return sysQuartzJobService.save(sysQuartzJobEntity);
     }
 
     /*
      **
      * @Description: 更新
-     * @Param: [${classname}Entity]
+     * @Param: [sysQuartzJobEntity]
      * @return: me.jiahao.exception.R
-     * @Author: ${author}
-     * @Date: ${datetime}
+     * @Author: jiahao.pan
+     * @Date: 2020-12-25 15:26:16
      */
     @SysOperaLog(descrption = "更新")
     @ApiOperation("更新")
-    @PreAuthorize("@el.check('${pathName}:list')")
+    @PreAuthorize("@el.check('sysquartzjob:list')")
     @PutMapping
-    public R update(${className}Entity ${classname}Entity) {
-        return ${classname}Service.update(${classname}Entity);
+    public R update(SysQuartzJobEntity sysQuartzJobEntity) {
+        return sysQuartzJobService.update(sysQuartzJobEntity);
     }
 
     /*
@@ -88,15 +89,15 @@ public class ${className}Controller {
      * @Description: 删除
      * @Param: [id]
      * @return: me.jiahao.exception.R
-     * @Author: ${author}
-     * @Date: ${datetime}
+     * @Author: jiahao.pan
+     * @Date: 2020-12-25 15:26:16
      */
     @SysOperaLog(descrption = "删除")
     @ApiOperation("删除")
-    @PreAuthorize("@el.check('${pathName}:list')")
+    @PreAuthorize("@el.check('sysquartzjob:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
-        return ${classname}Service.remove(ids);
+        return sysQuartzJobService.remove(ids);
     }
 
     /*
@@ -109,12 +110,12 @@ public class ${className}Controller {
      */
     @SysOperaLog(descrption = "导出")
     @ApiOperation("导出")
-    @PreAuthorize("@el.check('${pathName}:list')")
+    @PreAuthorize("@el.check('sysquartzjob:list')")
     @PostMapping(value = "export")
     public void exportExcel(@RequestBody Map<String,Object> params,HttpServletResponse response) throws IOException{
-        List<${className}BO> list = ${classname}Service.find${className}(params);
+        List<SysQuartzJobBO> list = sysQuartzJobService.findSysQuartzJob(params);
         // 导出
-        EasyExcelUtil.exportExcel(response,${className}BO.class,list);
+        EasyExcelUtil.exportExcel(response,SysQuartzJobBO.class,list);
     }
 
 }

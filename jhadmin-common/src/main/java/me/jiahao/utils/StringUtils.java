@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -235,6 +232,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils{
             ipAddrStr.append(ipAddr[i] & 0xFF);
         }
         return ipAddrStr.toString();
+    }
+
+    public static String createUUID() {
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 
 
