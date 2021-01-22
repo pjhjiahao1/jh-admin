@@ -1,10 +1,12 @@
 package me.jiahao.modules.system.service.impl;
 
+import io.swagger.models.auth.In;
 import me.jiahao.modules.system.service.JobsTestService;
 import me.jiahao.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author : panjiahao
@@ -14,7 +16,7 @@ import java.util.Date;
 public class JobsTestServiceImpl implements JobsTestService {
 
     @Override
-    public void testJobs() {
-        System.out.println("test ---->" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
+    public void testJobs(String s) {
+        System.out.println(s);
     }
 }

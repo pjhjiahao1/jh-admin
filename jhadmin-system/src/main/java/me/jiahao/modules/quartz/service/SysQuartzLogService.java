@@ -3,6 +3,7 @@ package me.jiahao.modules.quartz.service;
 import me.jiahao.exception.R;
 import com.github.pagehelper.PageInfo;
 import me.jiahao.modules.quartz.entity.SysQuartzLogEntity;
+import me.jiahao.modules.quartz.entity.bo.SysQuartzLogBO;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,8 @@ public interface SysQuartzLogService {
     R update(SysQuartzLogEntity sysQuartzLogEntity);
 
     R remove(Long[] id);
+
+    List<SysQuartzLogBO> findSysQuartzLog(Map<String,Object> params);
 }
 
 

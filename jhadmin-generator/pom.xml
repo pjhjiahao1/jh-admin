@@ -12,9 +12,9 @@
     <artifactId>jhadmin-generator</artifactId>
     <name>代码生成模块</name>
 
-<!--    <properties>
-        <configuration.version>1.9</configuration.version>
-    </properties>-->
+    <!--    <properties>
+            <configuration.version>1.9</configuration.version>
+        </properties>-->
 
     <dependencies>
         <dependency>
@@ -36,10 +36,10 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/commons-configuration/commons-configuration -->
-      <!--  <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>${configuration.version}</version>
-        </dependency>-->
+        <!--  <dependency>
+              <groupId>commons-configuration</groupId>
+              <artifactId>commons-configuration</artifactId>
+              <version>${configuration.version}</version>
+          </dependency>-->
     </dependencies>
 </project>

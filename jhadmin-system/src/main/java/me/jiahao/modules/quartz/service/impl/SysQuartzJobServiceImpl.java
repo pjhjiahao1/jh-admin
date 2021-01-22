@@ -54,6 +54,10 @@ public class SysQuartzJobServiceImpl implements SysQuartzJobService {
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     @Override
     public R remove(Long[] ids) {
+        for (Long s : ids) {
+            SysQuartzJobEntity jobEntity = sysQuartzJobMapper.getObjectById(s);
+            quartzManager.deleteJob(jobEntity.getUid());
+        }
         int count = sysQuartzJobMapper.batchRemove(ids);
         return R.common(count);
     }
@@ -65,4 +69,8 @@ public class SysQuartzJobServiceImpl implements SysQuartzJobService {
         return data;
     }
 
+    @Override
+    public List<SysQuartzJobEntity> list(Map<String, Object> params) {
+        return sysQuartzJobMapper.listForPage(params);
+    }
 }

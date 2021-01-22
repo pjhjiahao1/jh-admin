@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
+import me.jiahao.modules.quartz.entity.bo.SysQuartzLogBO;
 import me.jiahao.utils.Conversion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -53,4 +54,10 @@ public class SysQuartzLogServiceImpl implements SysQuartzLogService {
         return R.common(count);
     }
 
+    @Override
+    public List<SysQuartzLogBO> findSysQuartzLog(Map<String, Object> params) {
+        List<SysQuartzLogEntity> list = sysQuartzLogMapper.listForPage(params);
+        List<SysQuartzLogBO> data = conversion.typeConversion(new SysQuartzLogBO(), list);
+        return data;
+    }
 }

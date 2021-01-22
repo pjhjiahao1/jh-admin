@@ -27,6 +27,8 @@ public interface SysQuartzJobService {
     R remove(Long[] id);
 
     List<SysQuartzJobBO> findSysQuartzJob(Map<String,Object> params);
+
+    List<SysQuartzJobEntity> list(Map<String,Object> params); // 根据参数返回数据
 }
 
 

@@ -49,6 +49,7 @@
                 and pid like concat('%',#{pid},'%')
             </if>
         </where>
+        order by create_time desc
     </select>
     <insert id="save">
         insert into sys_quartz_log
@@ -81,13 +82,13 @@
         update sys_quartz_log
         <set>
             <if test="beanName != null">
-                bean_name = #{beanName, jdbcType=VARCHAR,
+                bean_name = #{beanName, jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="cronExpression != null">
-                cron_expression = #{cronExpression, jdbcType=VARCHAR,
+                cron_expression = #{cronExpression, jdbcType=VARCHAR},
             </if>
             <if test="exceptionDetail != null">
                 exception_detail = #{exceptionDetail,jdbcType=text},
@@ -96,13 +97,13 @@
                 is_success = #{isSuccess,jdbcType=NUMERIC},
             </if>
             <if test="jobName != null">
-                job_name = #{jobName, jdbcType=VARCHAR,
+                job_name = #{jobName, jdbcType=VARCHAR},
             </if>
             <if test="methodName != null">
-                method_name = #{methodName, jdbcType=VARCHAR,
+                method_name = #{methodName, jdbcType=VARCHAR},
             </if>
             <if test="params != null">
-                params = #{params, jdbcType=VARCHAR,
+                params = #{params, jdbcType=VARCHAR},
             </if>
             <if test="time != null">
                 time = #{time,jdbcType=NUMERIC},
