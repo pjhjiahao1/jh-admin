@@ -61,7 +61,7 @@
             a.update_by,
             a.org_name,
             a.job_id,
-            a.job_name,
+            a.job_name
             from sys_user a where a.username = #{username}
 
     </select>

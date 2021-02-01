@@ -89,11 +89,11 @@ public class MenuController {
     @ApiOperation("菜单列表")
     @PreAuthorize("@el.check('menu:list')")
     @GetMapping
-    public R listMenu () {
+    public R listMenu (@RequestParam Map<String,Object> params) {
         // 获取所有菜单列表
-        List<MenuEntity> menuList = menuService.getMenuForParams(new HashMap<>());
-        List<MenuEntity> menuTree = menuService.buildTree(menuList);
-        return R.success(menuTree);
+        List<MenuEntity> menuList = menuService.getMenuForParams(params);
+//        List<MenuEntity> menuTree = menuService.buildTree(menuList);
+        return R.success(menuList);
     }
 
     /*

@@ -2,6 +2,8 @@ package me.jiahao.exception;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import lombok.extern.slf4j.Slf4j;
+import me.jiahao.utils.ThrowableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -22,9 +24,10 @@ import java.io.IOException;
  * @date : 14:16 2020/11/27
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionResolver {
 
-    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionResolver.class);
+//    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionResolver.class);
 
 //    @ExceptionHandler(HttpClientErrorException.class)
 //    public void httpClientErrorException(HttpServletResponse response, HttpClientErrorException e) {
@@ -67,6 +70,7 @@ public class GlobalExceptionResolver {
     @ExceptionHandler(AccessDeniedException.class)
     public void accessDeniedException(HttpServletResponse response, AccessDeniedException e) {
         R result = new R();
+        log.error(ThrowableUtil.getStackTrace(e));
         result.setCode(CustomExceptionType.UNAUTHORIZED).setMsg("接口不允许访问").setData(null);
         responseResult(response, result);
     }
@@ -83,6 +87,7 @@ public class GlobalExceptionResolver {
     @ExceptionHandler(value = CustomException.class)
     public void customExceptionHandler(HttpServletResponse response, CustomException e) {
         R result = new R();
+        log.error(ThrowableUtil.getStackTrace(e));
         result.setCode(CustomExceptionType.FAIL).setMsg(e.getMessage()).setData(null);
         responseResult(response, result);
     }
@@ -93,7 +98,7 @@ public class GlobalExceptionResolver {
     public void exceptionHandler(HttpServletResponse response, Exception e) {
         R result = new R();
         result.setCode(CustomExceptionType.INTERNAL_SERVER_ERROR).setMsg("服务器打酱油了，请稍后再试~");
-        logger.error(e.getMessage(), e);
+        log.error(ThrowableUtil.getStackTrace(e));
         responseResult(response, result);
     }
     /**
@@ -110,7 +115,7 @@ public class GlobalExceptionResolver {
         try {
             response.getWriter().write(JSON.toJSONString(result, SerializerFeature.WriteMapNullValue));
         } catch (IOException ex) {
-            logger.error(ex.getMessage());
+            log.error(ThrowableUtil.getStackTrace(ex));
         }
     }
 

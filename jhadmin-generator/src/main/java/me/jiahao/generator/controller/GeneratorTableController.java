@@ -1,7 +1,9 @@
 package me.jiahao.generator.controller;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import me.jiahao.generator.entity.GeneratorTableEntity;
 import me.jiahao.generator.service.GeneratorTableService;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
@@ -36,12 +38,12 @@ public class GeneratorTableController {
     * @Author: panjiahao
     * @Date: 2020/11/25
     */
-//    @PreAuthorize("@el.check('kjkj:list')")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('generator:list')")
     @GetMapping
-    public R listForPage(PageRequest pageQuery) {
-        return R.success(generatorTableService.listForPage(pageQuery));
+    public R listForPage(@RequestParam Map<String,Object> params) {
+        PageInfo<GeneratorTableEntity> pageInfo = generatorTableService.listForPage(params);
+        return R.success(pageInfo);
     }
 
     /*

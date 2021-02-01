@@ -11,6 +11,6 @@ import java.util.Map;
  * @date : 13:07 2020/11/23
  */
 public interface GeneratorTableService {
-    PageInfo<GeneratorTableEntity> listForPage(PageRequest pageQuery);
+    PageInfo<GeneratorTableEntity> listForPage(Map<String,Object> params);
     byte[] generatorCode(Map<String,Object> params);
 }

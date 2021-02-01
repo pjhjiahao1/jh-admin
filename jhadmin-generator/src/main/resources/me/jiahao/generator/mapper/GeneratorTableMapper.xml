@@ -5,7 +5,13 @@
     <select id="listForPage" resultType="me.jiahao.generator.entity.GeneratorTableEntity">
         select t.TABLE_NAME,t.ENGINE,t.TABLE_COLLATION,t.TABLE_COMMENT,T.CREATE_TIME
         from information_schema.TABLES t
-        where t.TABLE_SCHEMA='jhadmin'
+        <where>
+            and t.TABLE_SCHEMA='jhadmin'
+            <if test="tableName != null">
+                and t.TABLE_NAME like concat('%',#{tableName},'%')
+            </if>
+        </where>
+        order by T.CREATE_TIME desc
     </select>
 
     <select id="queryTable" resultType="map">

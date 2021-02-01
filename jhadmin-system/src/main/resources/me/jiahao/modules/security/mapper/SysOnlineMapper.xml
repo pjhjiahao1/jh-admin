@@ -43,6 +43,7 @@
             <if test="loginTime != null">
                 and login_time like concat('%',#{loginTime},'%')
             </if>
+            order by login_time desc
         </where>
     </select>
     <insert id="save">

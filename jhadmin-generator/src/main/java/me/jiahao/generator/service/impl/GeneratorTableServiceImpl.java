@@ -27,9 +27,9 @@ public class GeneratorTableServiceImpl implements GeneratorTableService {
     private final GeneratorTableMapper generatorTableMapper;
 
     @Override
-    public PageInfo<GeneratorTableEntity> listForPage(PageRequest pageQuery) {
-        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
-        List<GeneratorTableEntity> sysRoles = generatorTableMapper.listForPage();
+    public PageInfo<GeneratorTableEntity> listForPage(Map<String,Object> params) {
+        PageHelper.startPage(Integer.parseInt(params.get("currentPage").toString()), Integer.parseInt(params.get("pageSize").toString()));
+        List<GeneratorTableEntity> sysRoles = generatorTableMapper.listForPage(params);
         PageInfo<GeneratorTableEntity> pageInfo = new PageInfo<>(sysRoles);
         return pageInfo;
     }
