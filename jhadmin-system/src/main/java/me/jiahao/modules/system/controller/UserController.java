@@ -31,7 +31,6 @@ public class UserController {
     private final UserService userService;
 
 
-    @SysOperaLog(descrption = "查询用户")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('user:list')")
     @GetMapping
@@ -69,9 +68,6 @@ public class UserController {
     @PreAuthorize("@el.check('user:list')")
     @PutMapping
     public R update(UserEntity userEntity) {
-        if (userEntity.getUsername().equals("admin")) {
-            return R.error("不允许编辑管理员");
-        }
         return userService.update(userEntity);
     }
 
@@ -88,11 +84,6 @@ public class UserController {
     @PreAuthorize("@el.check('user:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
-        for (Long l : ids) {
-            if (l == 2) {
-                return R.error("不允许删除管理员");
-            }
-        }
         return userService.remove(ids);
     }
 

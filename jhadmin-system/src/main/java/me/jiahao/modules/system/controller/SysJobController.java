@@ -43,7 +43,6 @@ public class SysJobController {
      * @Author: jiahao.pan
      * @Date: 2020-12-16 17:01:04
      */
-    @SysOperaLog(descrption = "查询岗位")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('sysjob:list')")
     @GetMapping

@@ -58,4 +58,4 @@ spring:
 
 #是否开启 swagger-ui 正式环境关闭
 swagger:
-  enabled: true
+  enabled: false

@@ -43,8 +43,8 @@
             <if test="loginTime != null">
                 and login_time like concat('%',#{loginTime},'%')
             </if>
-            order by login_time desc
         </where>
+        order by login_time desc
     </select>
     <insert id="save">
         insert into sys_online

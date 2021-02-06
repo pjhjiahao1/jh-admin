@@ -48,7 +48,6 @@ public class SysQuartzJobController {
      * @Author: jiahao.pan
      * @Date: 2020-12-25 15:26:16
      */
-    @SysOperaLog(descrption = "查询")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('sysquartzjob:list')")
     @GetMapping

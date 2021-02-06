@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
+import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.system.entity.vo.MenuTreeVo;
 import me.jiahao.modules.system.service.RoleMenuService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +37,7 @@ public class RoleMenuController {
     * @Author: panjiahao
     * @Date: 2020/10/9
     */
+    @SysOperaLog(descrption = "保存菜单关联权限")
     @ApiOperation("保存菜单关联权限")
     @PreAuthorize("@el.check('role:list')")
     @PostMapping

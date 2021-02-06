@@ -42,7 +42,6 @@ public class SysQuartzLogController {
      * @Author: jiahao.pan
      * @Date: 2020-12-25 16:44:42
      */
-    @SysOperaLog(descrption = "查询")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('sysquartzlog:list')")
     @GetMapping

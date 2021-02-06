@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 
+import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.security.entity.SysOnlineEntity;
 import me.jiahao.modules.security.entity.bo.SysOnlineBO;
 import me.jiahao.modules.security.service.SysOnlineService;
@@ -58,6 +59,7 @@ public class SysOnlineController {
      * @Author: jiahao.pan
      * @Date: 2020-12-18 15:51:00
      */
+    @SysOperaLog(descrption = "保存")
     @ApiOperation("保存")
     @PreAuthorize("@el.check('sysonline:list')")
     @PostMapping
@@ -73,6 +75,7 @@ public class SysOnlineController {
      * @Author: jiahao.pan
      * @Date: 2020-12-18 15:51:00
      */
+    @SysOperaLog(descrption = "更新")
     @ApiOperation("更新")
     @PreAuthorize("@el.check('sysonline:list')")
     @PutMapping
@@ -88,6 +91,7 @@ public class SysOnlineController {
      * @Author: jiahao.pan
      * @Date: 2020-12-18 15:51:00
      */
+    @SysOperaLog(descrption = "删除")
     @ApiOperation("删除")
     @PreAuthorize("@el.check('sysonline:list')")
     @DeleteMapping
@@ -103,6 +107,7 @@ public class SysOnlineController {
      * @Author: panjiahao
      * @Date: 2020/12/7
      */
+    @SysOperaLog(descrption = "导出")
     @ApiOperation("导出")
     @PreAuthorize("@el.check('sysonline:list')")
     @PostMapping(value = "export")

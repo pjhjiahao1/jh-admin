@@ -38,7 +38,6 @@ public class RoleController {
         return R.success(allRole);
     }
 
-    @SysOperaLog(descrption = "查询角色")
     @ApiOperation("分页查询")
     @PreAuthorize("@el.check('role:list')")
     @GetMapping
