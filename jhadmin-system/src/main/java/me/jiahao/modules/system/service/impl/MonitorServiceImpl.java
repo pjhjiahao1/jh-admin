@@ -65,7 +65,11 @@ public class MonitorServiceImpl implements MonitorService {
             long used = fs.getTotalSpace() - fs.getUsableSpace();
             diskInfo.put("available", FileUtil.getSize(fs.getUsableSpace()));
             diskInfo.put("used", FileUtil.getSize(used));
-            diskInfo.put("usageRate", df.format(used/(double)fs.getTotalSpace() * 100));
+            if (used <= 0 || fs.getTotalSpace() <= 0) {
+                diskInfo.put("usageRate", 0);
+            } else {
+                diskInfo.put("usageRate", df.format(used/(double)fs.getTotalSpace() * 100));
+            }
         }
         return diskInfo;
     }
