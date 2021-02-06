@@ -10,6 +10,7 @@ import me.jiahao.modules.system.service.MenuService;
 import me.jiahao.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.util.StringUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +31,8 @@ import java.util.Map;
 public class MenuController {
 
     private final MenuService menuService;
-
+    @Value("${spring.profiles.active}")
+    private String active;
     /*
     **
     * @Description: 构建左侧菜单栏
@@ -119,6 +121,9 @@ public class MenuController {
     @PreAuthorize("@el.check('menu:list')")
     @PostMapping
     public R save (MenuEntity menuEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         if (menuEntity.getMenuPid() == null && menuEntity.getIsLeaf() != 0) {
             return R.warn("请选择上级名称");
         }
@@ -145,6 +150,9 @@ public class MenuController {
     @PreAuthorize("@el.check('menu:list')")
     @PutMapping
     public R update (MenuEntity menuEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return menuService.update(menuEntity);
     }
 
@@ -153,6 +161,9 @@ public class MenuController {
     @PreAuthorize("@el.check('menu:list')")
     @DeleteMapping
     public R remove (@RequestParam(value = "id") Long id) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return menuService.remove(id);
     }
 }

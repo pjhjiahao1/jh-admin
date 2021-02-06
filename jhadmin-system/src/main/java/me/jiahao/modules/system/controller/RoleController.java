@@ -10,6 +10,7 @@ import me.jiahao.modules.system.entity.bo.RoleExcelBO;
 import me.jiahao.modules.system.mapper.UserRoleMapper;
 import me.jiahao.modules.system.service.RoleService;
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,8 @@ import java.util.Map;
 public class RoleController {
 
     private final RoleService roleService;
-    private final UserRoleMapper userRoleMapper;
+    @Value("${spring.profiles.active}")
+    private String active;
 
     @ApiOperation("查询全部角色 不加权限 主做数据字典")
     @GetMapping(value = "/all")
@@ -50,6 +52,9 @@ public class RoleController {
     @PreAuthorize("@el.check('role:list')")
     @PostMapping
     public R save(RoleEntity roleEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         int count = roleService.save(roleEntity);
         return R.common(count);
     }
@@ -59,6 +64,9 @@ public class RoleController {
     @PreAuthorize("@el.check('role:list')")
     @PutMapping
     public R update(RoleEntity roleEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         int count = roleService.update(roleEntity);
         return R.common(count);
     }
@@ -68,6 +76,9 @@ public class RoleController {
     @PreAuthorize("@el.check('role:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         int count = roleService.batchRemove(ids);
         return R.common(count);
     }

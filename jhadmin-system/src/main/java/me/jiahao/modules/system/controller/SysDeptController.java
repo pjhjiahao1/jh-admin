@@ -10,6 +10,7 @@ import me.jiahao.modules.system.entity.SysDeptEntity;
 import me.jiahao.modules.system.entity.bo.SysDeptBO;
 import me.jiahao.modules.system.service.SysDeptService;
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,8 @@ import java.util.Map;
 public class SysDeptController {
 
     private final SysDeptService sysDeptService;
-
+    @Value("${spring.profiles.active}")
+    private String active;
     /*
      **
      * @Description: 分页查询
@@ -81,6 +83,9 @@ public class SysDeptController {
     @PreAuthorize("@el.check('sysdept:list')")
     @PostMapping
     public R save(SysDeptEntity sysDeptEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysDeptService.save(sysDeptEntity);
     }
 
@@ -97,6 +102,9 @@ public class SysDeptController {
     @PreAuthorize("@el.check('sysdept:list')")
     @PutMapping
     public R update(SysDeptEntity sysDeptEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysDeptService.update(sysDeptEntity);
     }
 
@@ -113,6 +121,9 @@ public class SysDeptController {
     @PreAuthorize("@el.check('sysdept:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysDeptService.remove(ids);
     }
 

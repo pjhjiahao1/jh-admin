@@ -11,6 +11,7 @@ import me.jiahao.modules.system.service.SysJobService;
 import me.jiahao.modules.system.entity.bo.SysJobBO;
 
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,9 @@ import java.util.Map;
 public class SysJobController {
 
     private final SysJobService sysJobService;
+    @Value("${spring.profiles.active}")
+    private String active;
+
 
     /*
      **
@@ -64,6 +68,9 @@ public class SysJobController {
     @PreAuthorize("@el.check('sysjob:list')")
     @PostMapping
     public R save(SysJobEntity sysJobEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysJobService.save(sysJobEntity);
     }
 
@@ -80,6 +87,9 @@ public class SysJobController {
     @PreAuthorize("@el.check('sysjob:list')")
     @PutMapping
     public R update(SysJobEntity sysJobEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysJobService.update(sysJobEntity);
     }
 
@@ -96,6 +106,9 @@ public class SysJobController {
     @PreAuthorize("@el.check('sysjob:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysJobService.remove(ids);
     }
 

@@ -10,6 +10,7 @@ import me.jiahao.logging.service.SysLogService;
 import me.jiahao.logging.entity.bo.SysLogBO;
 
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,8 @@ import java.util.Map;
 public class SysLogController {
 
     private final SysLogService sysLogService;
+    @Value("${spring.profiles.active}")
+    private String active;
 
     /*
      **
@@ -92,6 +95,9 @@ public class SysLogController {
     @PreAuthorize("@el.check('syslog:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysLogService.remove(ids);
     }
 

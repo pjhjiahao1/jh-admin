@@ -11,6 +11,7 @@ import me.jiahao.modules.system.service.SysDictService;
 import me.jiahao.modules.system.entity.bo.SysDictBO;
 
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,8 @@ import java.util.Map;
 public class SysDictController {
 
     private final SysDictService sysDictService;
+    @Value("${spring.profiles.active}")
+    private String active;
 
     /*
      **
@@ -99,6 +102,9 @@ public class SysDictController {
     @PreAuthorize("@el.check('sysdict:list')")
     @PostMapping
     public R save(SysDictEntity sysDictEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysDictService.save(sysDictEntity);
     }
 
@@ -115,6 +121,9 @@ public class SysDictController {
     @PreAuthorize("@el.check('sysdict:list')")
     @PutMapping
     public R update(SysDictEntity sysDictEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysDictService.update(sysDictEntity);
     }
 
@@ -131,6 +140,9 @@ public class SysDictController {
     @PreAuthorize("@el.check('sysdict:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysDictService.remove(ids);
     }
 

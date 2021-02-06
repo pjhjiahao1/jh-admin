@@ -10,6 +10,7 @@ import me.jiahao.modules.system.entity.UserEntity;
 import me.jiahao.modules.system.entity.bo.UserExcelBO;
 import me.jiahao.modules.system.service.UserService;
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,9 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+
+    @Value("${spring.profiles.active}")
+    private String active;
 
 
     @ApiOperation("分页查询")
@@ -52,6 +56,9 @@ public class UserController {
     @PreAuthorize("@el.check('user:list')")
     @PostMapping
     public R save(UserEntity userEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return userService.save(userEntity);
     }
 
@@ -68,6 +75,9 @@ public class UserController {
     @PreAuthorize("@el.check('user:list')")
     @PutMapping
     public R update(UserEntity userEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return userService.update(userEntity);
     }
 
@@ -84,6 +94,9 @@ public class UserController {
     @PreAuthorize("@el.check('user:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return userService.remove(ids);
     }
 

@@ -13,6 +13,7 @@ import me.jiahao.modules.quartz.entity.bo.SysQuartzJobBO;
 
 import me.jiahao.modules.quartz.utils.QuartzManager;
 import me.jiahao.utils.EasyExcelUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,8 @@ public class SysQuartzJobController {
 
     private final SysQuartzJobService sysQuartzJobService;
     private final QuartzManager quartzManager;
+    @Value("${spring.profiles.active}")
+    private String active;
 
     /*
      **
@@ -69,6 +72,9 @@ public class SysQuartzJobController {
     @PreAuthorize("@el.check('sysquartzjob:list')")
     @PostMapping
     public R save(SysQuartzJobEntity sysQuartzJobEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysQuartzJobService.save(sysQuartzJobEntity);
     }
 
@@ -85,6 +91,9 @@ public class SysQuartzJobController {
     @PreAuthorize("@el.check('sysquartzjob:list')")
     @PutMapping
     public R update(SysQuartzJobEntity sysQuartzJobEntity) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysQuartzJobService.update(sysQuartzJobEntity);
     }
 
@@ -101,6 +110,9 @@ public class SysQuartzJobController {
     @PreAuthorize("@el.check('sysquartzjob:list')")
     @DeleteMapping
     public R remove(@RequestBody Long[] ids) {
+        if (active.equals("prod")) {
+            return R.error("演示环境不可操作!");
+        }
         return sysQuartzJobService.remove(ids);
     }
 
