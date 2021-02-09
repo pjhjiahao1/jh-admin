@@ -361,6 +361,13 @@ CREATE TABLE `sys_log` (
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for sys_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `id` int NOT NULL AUTO_INCREMENT,
   `menu_pid` int DEFAULT '0' COMMENT '上级id',
@@ -378,27 +385,29 @@ CREATE TABLE `sys_menu` (
   `update_time` datetime DEFAULT NULL,
   `create_by` varchar(32) DEFAULT NULL,
   `update_by` varchar(32) DEFAULT NULL,
+  `menu_pid_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上级名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '0', '0', '系统管理', null, 'md-cog', '1', '1', '0', '', 'system', 'Main', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('2', '1', '1', '用户管理', '', 'ios-people', '1', '2', '0', 'user:list', 'system_user', 'system/user/index', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('15', '1', '1', '角色管理', null, 'md-person', '2', '2', '0', 'role:list', 'system_role', 'system/role/index', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('16', '1', '1', '菜单管理', null, 'md-menu', '3', '2', '0', 'menu:list', 'system_menu', 'system/menu/index', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('19', '1', '1', '部门管理', null, 'logo-codepen', '4', '2', '0', 'dept:list', 'system_dept', 'system/dept/index', '2020-11-19 17:09:06', null, 'admin', null);
-INSERT INTO `sys_menu` VALUES ('21', '0', '0', '系统工具', null, 'md-albums', '2', '1', '0', '', 'util', 'Main', '2020-11-23 11:17:56', null, 'admin', null);
-INSERT INTO `sys_menu` VALUES ('22', '21', '1', '代码生成', null, 'md-code-download', '1', '2', '0', 'generator:list', 'generator_index', 'generator/index', '2020-11-23 11:21:50', null, 'admin', null);
-INSERT INTO `sys_menu` VALUES ('23', '1', '1', '岗位管理', null, 'ios-contact', '5', '2', '0', 'sysjob:list', 'system_job', 'system/job/index', null, '2020-12-17 14:17:44', null, 'admin');
-INSERT INTO `sys_menu` VALUES ('24', '25', '1', '在线用户', null, 'ios-people', '1', '2', '0', 'sysonline:list', 'online_user', 'monitor/online/index', '2020-12-18 16:22:18', '2020-12-18 16:23:17', null, 'admin');
-INSERT INTO `sys_menu` VALUES ('25', '0', '0', '系统监控', null, 'md-glasses', '3', '1', '0', '', 'monitor', 'Main', '2020-12-18 16:18:23', null, 'admin', null);
-INSERT INTO `sys_menu` VALUES ('26', '25', '1', '操作日志', null, 'md-list-box', '1', '2', '0', 'syslog:list', 'logging_index', 'monitor/log/index', null, '2021-02-01 10:58:56', null, 'admin');
-INSERT INTO `sys_menu` VALUES ('27', '1', '1', '任务调度', null, 'ios-people', '7', '2', '0', 'timing:list', 'system_timing', 'system/timing/index', null, '2021-01-29 16:06:17', null, 'admin');
-INSERT INTO `sys_menu` VALUES ('28', '1', '1', '数据字典', null, 'md-barcode', '6', '2', '0', 'sysdict:list', 'system_dict', 'system/dict/index', null, '2021-01-29 16:06:26', null, 'admin');
-INSERT INTO `sys_menu` VALUES ('30', '25', '1', '服务监控', null, 'md-desktop', '4', '2', '0', 'monitor:list', 'server_monitor', 'monitor/server/index', '2021-02-01 11:23:35', null, 'admin', null);
-
+INSERT INTO `sys_menu` VALUES ('1', '0', '0', '系统管理', null, 'md-cog', '1', '1', '0', '', 'system', 'Main', null, null, null, null, '顶级类目');
+INSERT INTO `sys_menu` VALUES ('2', '1', '1', '用户管理', '', 'ios-people', '1', '2', '0', 'user:list', 'system_user', 'system/user/index', null, null, null, null, '系统管理');
+INSERT INTO `sys_menu` VALUES ('15', '1', '1', '角色管理', null, 'md-person', '2', '2', '0', 'role:list', 'system_role', 'system/role/index', null, null, null, null, '系统管理');
+INSERT INTO `sys_menu` VALUES ('16', '1', '1', '菜单管理', null, 'md-menu', '3', '2', '0', 'menu:list', 'system_menu', 'system/menu/index', null, null, null, null, '系统管理');
+INSERT INTO `sys_menu` VALUES ('19', '1', '1', '部门管理', null, 'logo-codepen', '4', '2', '0', 'dept:list', 'system_dept', 'system/dept/index', '2020-11-19 17:09:06', null, 'admin', null, '系统管理');
+INSERT INTO `sys_menu` VALUES ('21', '0', '0', '系统工具', null, 'md-albums', '2', '1', '0', '', 'util', 'Main', '2020-11-23 11:17:56', null, 'admin', null, '顶级类目');
+INSERT INTO `sys_menu` VALUES ('22', '21', '1', '代码生成', null, 'md-code-download', '1', '2', '0', 'generator:list', 'generator_index', 'generator/index', '2020-11-23 11:21:50', null, 'admin', null, '系统工具');
+INSERT INTO `sys_menu` VALUES ('23', '1', '1', '岗位管理', null, 'ios-contact', '5', '2', '0', 'sysjob:list', 'system_job', 'system/job/index', null, '2020-12-17 14:17:44', null, 'admin', '系统管理');
+INSERT INTO `sys_menu` VALUES ('24', '25', '1', '在线用户', null, 'ios-people', '1', '2', '0', 'sysonline:list', 'online_user', 'monitor/online/index', '2020-12-18 16:22:18', '2020-12-18 16:23:17', null, 'admin', '系统监控');
+INSERT INTO `sys_menu` VALUES ('25', '0', '0', '系统监控', null, 'md-glasses', '3', '1', '0', '', 'monitor', 'Main', '2020-12-18 16:18:23', null, 'admin', null, '顶级类目');
+INSERT INTO `sys_menu` VALUES ('26', '25', '1', '操作日志', null, 'md-list-box', '1', '2', '0', 'syslog:list', 'logging_index', 'monitor/log/index', null, '2021-02-01 10:58:56', null, 'admin', '系统监控');
+INSERT INTO `sys_menu` VALUES ('27', '1', '1', '任务调度', null, 'ios-people', '7', '2', '0', 'timing:list', 'system_timing', 'system/timing/index', null, '2021-01-29 16:06:17', null, 'admin', '系统管理');
+INSERT INTO `sys_menu` VALUES ('28', '1', '1', '数据字典', null, 'md-barcode', '6', '2', '0', 'sysdict:list', 'system_dict', 'system/dict/index', null, '2021-01-29 16:06:26', null, 'admin', '系统管理');
+INSERT INTO `sys_menu` VALUES ('30', '25', '1', '服务监控', null, 'md-desktop', '4', '2', '0', 'monitor:list', 'server_monitor', 'monitor/server/index', '2021-02-01 11:23:35', null, 'admin', null, '系统监控');
+INSERT INTO `sys_menu` VALUES ('31', '2', '2', '新增', null, '', '1', '3', '0', 'user:add', '', '', '2021-02-08 17:00:42', null, 'admin', null, '用户管理');
+INSERT INTO `sys_menu` VALUES ('32', '2', '2', '编辑', null, '', '2', '3', '0', 'user:edit', '', '', '2021-02-08 19:36:51', null, 'admin', null, '用户管理');
 -- ----------------------------
 -- Table structure for sys_online
 -- ----------------------------
