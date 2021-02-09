@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import me.jiahao.exception.R;
 import me.jiahao.logging.annotation.SysOperaLog;
 import me.jiahao.modules.system.entity.MenuEntity;
+import me.jiahao.modules.system.entity.vo.MenuTreeVo;
 import me.jiahao.modules.system.service.MenuService;
 import me.jiahao.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +86,7 @@ public class MenuController {
             }
         }
         List<MenuEntity> menuTree = menuService.buildTree(menuList);
-        Object o = menuService.buildMenusTree(menuTree);
+        Object o = menuService.buildMenusRole(menuTree, new ArrayList<MenuTreeVo>());
         return R.success(o);
     }
 
@@ -108,10 +110,8 @@ public class MenuController {
     */
     @ApiOperation("获取一级菜单")
     @PreAuthorize("@el.check('menu:list')")
-    @GetMapping(value = "/firstMenu")
-    public R getFirstMenu () {
-        Map<String,Object> params = new HashMap<>();
-        params.put("pid","0");
+    @GetMapping(value = "/getTreeData")
+    public R getTreeData (@RequestParam Map<String,Object> params) {
         List<MenuEntity> menuForParams = menuService.getMenuForParams(params);
         return R.success(menuForParams);
     }
@@ -121,9 +121,9 @@ public class MenuController {
     @PreAuthorize("@el.check('menu:list')")
     @PostMapping
     public R save (MenuEntity menuEntity) {
-        if (active.equals("prod")) {
-            return R.error("演示环境不可操作!");
-        }
+//        if (active.equals("prod")) {
+//            return R.error("演示环境不可操作!");
+//        }
         if (menuEntity.getMenuPid() == null && menuEntity.getIsLeaf() != 0) {
             return R.warn("请选择上级名称");
         }

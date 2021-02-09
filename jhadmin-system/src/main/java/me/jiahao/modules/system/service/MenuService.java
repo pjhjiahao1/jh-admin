@@ -2,6 +2,7 @@ package me.jiahao.modules.system.service;
 
 import me.jiahao.exception.R;
 import me.jiahao.modules.system.entity.MenuEntity;
+import me.jiahao.modules.system.entity.vo.MenuTreeVo;
 
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,8 @@ public interface MenuService {
      * @return /
      */
     Object buildMenusTree(List<MenuEntity> menuDtos);
+
+    Object buildMenusRole (List<MenuEntity> menuDtos,List<MenuTreeVo> treeList);
 
     List<MenuEntity> getMenuForParams(Map<String,Object> params);
 

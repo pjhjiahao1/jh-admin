@@ -31,7 +31,8 @@
         permission,
         menu_code,
         component,
-        create_time
+        create_time,
+        menu_pid_name
         from sys_menu
         <where>
             <if test="menuName != null and menuName != ''">
@@ -47,7 +48,7 @@
     </select>
 
     <insert id="save" >
-        insert into sys_menu(menu_pid,is_leaf,menu_name,icon,sort,level,permission,menu_code,component,create_time,create_by)
+        insert into sys_menu(menu_pid,is_leaf,menu_name,icon,sort,level,permission,menu_code,component,create_time,create_by,menu_pid_name)
         values (
             #{menuPid,jdbcType=BIGINT},
             #{isLeaf,jdbcType=NUMERIC},
@@ -59,7 +60,8 @@
             #{menuCode,jdbcType=VARCHAR},
             #{component,jdbcType=VARCHAR},
             #{createTime,jdbcType=TIMESTAMP},
-            #{createBy,jdbcType=VARCHAR}
+            #{createBy,jdbcType=VARCHAR},
+            #{menuPidName,jdbcType=VARCHAR}
         )
 
     </insert>
@@ -99,6 +101,9 @@
             </if>
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="menuPidName != null">
+                menu_pid_name = #{menuPidName,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

@@ -7,6 +7,7 @@ import me.jiahao.modules.security.mapper.UserMenuRoleMeaasgeMapper;
 import me.jiahao.modules.system.entity.MenuEntity;
 import me.jiahao.modules.system.entity.RoleEntity;
 import me.jiahao.modules.system.entity.RoleMenuEntity;
+import me.jiahao.modules.system.entity.SysDeptEntity;
 import me.jiahao.modules.system.entity.vo.MenuMetaVo;
 import me.jiahao.modules.system.entity.vo.MenuTreeVo;
 import me.jiahao.modules.system.entity.vo.Menuvo;
@@ -138,6 +139,32 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public Object buildMenusRole(List<MenuEntity> menuDtos,List<MenuTreeVo> treeList) {
+        List<MenuTreeVo> treeListBuild = new ArrayList<>();
+        for (MenuEntity m : menuDtos) {
+            MenuTreeVo tree = new MenuTreeVo();
+            List<MenuEntity> children = m.getChildren();
+            tree.setTitle(m.getMenuName());
+            // 如果有子节点，递归 节点设为不选中，不然主节点选中子节点会全部选中
+            if (children!= null && !children.isEmpty()) {
+                tree.setChecked(false);
+                List<MenuTreeVo> o = (List<MenuTreeVo>) buildMenusRole(children, treeList);
+                tree.setChildren(o);
+                treeListBuild.add(tree);
+            } else {
+                if (m.getAuthMenu()) {
+                    tree.setChecked(true);
+                } else {
+                    tree.setChecked(false);
+                }
+                tree.setChildren(new ArrayList<>());
+                treeListBuild.add(tree);
+            }
+        }
+        return treeListBuild;
+    }
+
+    @Override
     public Object buildMenus(List<MenuEntity> menuDtos) {
         List<Menuvo> menuvoList = new ArrayList<>();
         UserDetailsEntity userDetailsEntity = (UserDetailsEntity) SecurityUtils.getCurrentUser();
@@ -185,7 +212,13 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuEntity> getMenuForParams(Map<String, Object> params) {
-        return menuMapper.listForPage(params);
+        List<MenuEntity> menuEntities = menuMapper.listForPage(params);
+        for (MenuEntity s : menuEntities) {
+            s.setTitle(s.getMenuName());
+            s.setLoading(false);
+            s.setChildren(new ArrayList<>());
+        }
+        return menuEntities;
     }
 
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)

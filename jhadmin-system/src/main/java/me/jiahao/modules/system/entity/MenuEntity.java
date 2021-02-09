@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_EMPTY) // json数据中为空不返回
 public class MenuEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -2799068742108381436L;
     private Long id;
@@ -43,7 +42,14 @@ public class MenuEntity extends BaseEntity implements Serializable {
     private String menuCode;
 
     private String component;
+
+    private String menuPidName;
     // 构建菜单树使用 当前用户是否有权限 true：有 false：无
 
     private Boolean authMenu = false;
+
+    private String title;
+
+    private Boolean loading;
+
 }
