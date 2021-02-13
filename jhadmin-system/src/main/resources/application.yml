@@ -11,8 +11,8 @@ spring:
           enabled: false
   mail:
     host: smtp.163.com
-    username: jiahao_pan1@163.com
-    password: IGOSKATLUUSHIPIF
+    username: 邮箱用户
+    password: 邮箱密码
     default-encoding: UTF-8
 
 mybatis:
