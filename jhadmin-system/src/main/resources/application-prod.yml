@@ -4,9 +4,9 @@ spring:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://47.104.70.137:3306/jhadmin?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: root
-      password: 'MyPass@123'
+      url: 自己的地址
+      username: 用户名
+      password: 密码
       # 初始连接数
       initial-size: 5
       # 最小连接数
@@ -45,9 +45,9 @@ spring:
             multi-statement-allow: true
   redis:
     database: 0
-    host: 47.104.70.137
+    host: 自己的地址
     port: 6379
-    password: '!@-_birThday957'
+    password: 密码
     lettuce:
       pool:
         max-active: 8
